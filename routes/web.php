@@ -38,3 +38,19 @@ Route::get('/product-tracker', function () {
 Route::get('/items', function () {
     return Inertia::render('Items/List');
 })->middleware(['auth', 'verified'])->name('items');
+
+    Route::get('/item-types', function () {
+    return Inertia::render('ItemTypes/List');
+})->middleware(['auth', 'verified'])->name('item-types');
+
+Route::get('/suppliers', function () {
+    return Inertia::render('Suppliers/List');
+})->middleware(['auth', 'verified'])->name('suppliers');
+
+Route::get('/locations', function () {
+    return Inertia::render('Locations/List');
+})->middleware(['auth', 'verified'])->name('locations');
+
+Route::get('/location-types', function () {
+    return Inertia::render('LocationTypes/List');
+})->middleware(['auth', 'verified'])->name('location-types');
