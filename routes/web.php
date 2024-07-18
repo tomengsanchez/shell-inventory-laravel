@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ItemTypeController;
+use App\Models\ItemType;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -19,7 +22,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile',[ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -27,9 +30,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/item-type', function () {
-    return Inertia::render('item_type');
-})->middleware(['auth', 'verified'])->name('item_type');
 
 Route::get('/product-tracker', function () {
     return Inertia::render('ProductTracker/List');
@@ -39,9 +39,7 @@ Route::get('/items', function () {
     return Inertia::render('Items/List');
 })->middleware(['auth', 'verified'])->name('items');
 
-    Route::get('/item-types', function () {
-    return Inertia::render('ItemTypes/List');
-})->middleware(['auth', 'verified'])->name('item-types');
+Route::get('/item-types', [ItemTypeController::class,'list'])->middleware(['auth', 'verified'])->name('item-types');
 
 Route::get('/suppliers', function () {
     return Inertia::render('Suppliers/List');
