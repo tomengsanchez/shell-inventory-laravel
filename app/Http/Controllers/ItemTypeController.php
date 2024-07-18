@@ -20,7 +20,7 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'Tomeng'
+            'name1'=>'JENRY '
         ]);
     }
 
