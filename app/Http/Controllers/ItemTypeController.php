@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemTypeRequest;
 use App\Http\Requests\UpdateItemTypeRequest;
+
 use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
