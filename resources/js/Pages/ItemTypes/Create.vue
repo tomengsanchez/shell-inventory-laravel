@@ -2,6 +2,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ItemTypesTable from '@/Components/ItemTypes/ItemTypesTable.vue';
 import { Head } from '@inertiajs/vue3';
+import ItemTypeCreateForm from '@/Components/ItemTypes/ItemTypeCreateForm.vue';
+
+
 
 var user = '';
 defineProps<{
@@ -14,7 +17,7 @@ defineProps<{
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Item Types</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Item Types</h2>
         </template>
 
         <div class="py-12">
@@ -23,17 +26,8 @@ defineProps<{
                     <div class="p-6 text-gray-900">
                         You're logged in!
                         <br>this is the components <br>
-
-                        <ItemTypesTable :name="name1"></ItemTypesTable>
-                        <form action="/action_page.php">
-                            <label for="itemName">Item Name:</label>
-                            <input type="text" id="itemName" name="itemName"><br><br>
-                            <button class="btn-success btn-xs">ADD</button>
-
-                        </form>
-
+                        <ItemTypeCreateForm></ItemTypeCreateForm>
                     </div>
-
 
                 </div>
             </div>
