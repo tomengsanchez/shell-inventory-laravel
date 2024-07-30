@@ -21,7 +21,7 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY '
+            'name1'=>'JENRY1  asdf sdfdas'
         ]);
     }
 
@@ -34,16 +34,24 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY '
+            'item_name'=>'asdfds'
+        
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreItemTypeRequest $request)
+    public function store(Request $request)
     {
-        //
+        //if success 
+        return Inertia::render('ItemTypes/Create', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'item_name'=>'asdfds'
+        
+        ]);
+
     }
 
     /**
