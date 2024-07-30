@@ -28,9 +28,14 @@ class ItemTypeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        return Inertia::render('ItemTypes/Create', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'name1'=>'JENRY '
+        ]);
     }
 
     /**

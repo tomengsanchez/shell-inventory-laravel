@@ -40,6 +40,7 @@ Route::get('/items', function () {
 })->middleware(['auth', 'verified'])->name('items');
 
 Route::get('/item-types', [ItemTypeController::class,'list'])->middleware(['auth', 'verified'])->name('item-types');
+Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 
 Route::get('/suppliers', function () {
     return Inertia::render('Suppliers/List');
