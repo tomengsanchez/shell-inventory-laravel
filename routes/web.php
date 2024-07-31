@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemTypeController;
+use App\Http\Controllers\SupplierController;
 use App\Models\ItemType;
+use App\Models\Supplier;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +48,9 @@ Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(
 Route::get('/suppliers', function () {
     return Inertia::render('Suppliers/List');
 })->middleware(['auth', 'verified'])->name('suppliers');
+
+Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
+Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
 
 Route::get('/locations', function () {
     return Inertia::render('Locations/List');
