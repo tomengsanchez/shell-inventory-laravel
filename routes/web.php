@@ -43,6 +43,11 @@ Route::get('/item-types', [ItemTypeController::class,'list'])->middleware(['auth
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(['auth', 'verified'])->name('store-item-types');
 
+// Route::get('/item-types', [ItemTypeController::class, 'index']);
+Route::put('/item-types/{id}', [ItemTypeController::class, 'update']);
+Route::delete('/item-types/{id}', [ItemTypeController::class, 'destroy']);
+
+
 Route::get('/suppliers', function () {
     return Inertia::render('Suppliers/List');
 })->middleware(['auth', 'verified'])->name('suppliers');

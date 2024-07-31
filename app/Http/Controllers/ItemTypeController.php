@@ -9,11 +9,23 @@ use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
 use Inertia\Response;
+
+
 class ItemTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+     public function index(Request $request)
+    {
+        return Inertia::render('ItemTypes/List', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'name1'=>'JENRY1  asdf sdfdas',
+            'data' => ItemType::all()
+        ]);
+    }
+    
     public function list(Request $request): Response
     {
         //
@@ -44,8 +56,22 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //insert to db
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        // Create a new item and save it to the database
+        $ItemType = new Itemtype();
+        $ItemType->name = $request->input('name');
+        $ItemType->new_item = "";
+        $ItemType->save();
         
+        return Inertia::render('ItemTypes/Create', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'req'=>$request['name']
+        ]);
+    
     }
 
     /**
@@ -67,16 +93,20 @@ class ItemTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemTypeRequest $request, ItemType $itemType)
+    public function update(UpdateItemTypeRequest $request, $id)
     {
-        //
+        $data = ItemType::findOrFail($id);
+        $data->update($request->all());
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemType $itemType)
+    public function destroy(ItemType $itemType, $id)
     {
-        //
+        $data = ItemType::findOrFail($id);
+        $data->delete();
+        return response()->json(['message' => 'Data deleted successfully']);
     }
 }
