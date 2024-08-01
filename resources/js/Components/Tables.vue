@@ -3,7 +3,7 @@
 <template>
   <div class="container mx-auto p-4">
     <h1 class="text-xl font-bold mb-4">Data List</h1>
-    <table class="min-w-full bg-white border border-gray-200">
+    <table class="min-w-full bg-white">
       <thead>
         <tr>
           <th class="py-2 px-4 border-b">ID</th>
@@ -13,22 +13,23 @@
       </thead>
       <tbody>
         <tr v-for="item in data" :key="item.id">
-          <td class="py-4 px-8 border-b text-justify">{{ item.id }}</td>
+          <td class="text-center py-2 px-8">{{ item.id }}</td>
           <!-- <td class="py-2 px-4 border-b">{{ item.name }}</td> -->
-          <td v-if="!item.editing" class="py-4 px-8 border-b text-justify">{{ item.name }}</td>
-          <td v-if="item.editing" class="py-4 px-8 border-b text-justify"><input v-model="item.name" /></td>
+          <td v-if="!item.editing" class="text-center py-2 px-10">{{ item.name }}</td>
+          <td v-if="item.editing" class="text-center py-2 px-10"><input v-model="item.name" /></td>
           <!-- <td class="py-2 px-4 border-b">
             <button @click="updateData(item.id)" class="bg-blue-500 text-white py-1 px-2 rounded">Update</button>
             <button @click="deleteData(item.id)" class="bg-red-500 text-white py-1 px-2 rounded">Delete</button>
            -->
 
-            <td>
-            <button @click="item.editing ? saveItem(item) : editItem(item) "class="bg-blue-500 text-white py-1 px-2 rounded text-justify">
+        <td>
+          <div class="flex items-center justify-center">
+              <button @click="item.editing ? saveItem(item) : editItem(item) " class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
               {{ item.editing ? 'Save' : 'Edit' }}
-            </button>
-            <button @click="deleteItem(item.id)" class="bg-red-500 text-white py-1 px-2 rounded text-justify">Delete</button>
-          </td>
-          
+              </button>
+            <button @click="deleteItem(item.id)"  class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+          </div>
+        </td>
           <!-- </td> -->
         </tr>
       </tbody>
