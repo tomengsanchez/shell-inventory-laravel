@@ -39,12 +39,12 @@ Route::get('/items', function () {
     return Inertia::render('Items/List');
 })->middleware(['auth', 'verified'])->name('items');
 
-Route::get('/item-types', [ItemTypeController::class,'list'])->middleware(['auth', 'verified'])->name('item-types');
+Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types');
+Route::get('/item-types-table', [ItemTypeController::class,'list_table'])->middleware(['auth', 'verified'])->name('item-types-table');
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(['auth', 'verified'])->name('store-item-types');
 
-// Route::get('/item-types', [ItemTypeController::class, 'index']);
-Route::put('/item-types/{id}', [ItemTypeController::class, 'update']);
+Route::post('/item-types-table-update/{id}', [ItemTypeController::class,'update'])->middleware(['auth', 'verified'])->name('item-types-table-update');
 Route::delete('/item-types/{id}', [ItemTypeController::class, 'destroy']);
 
 
