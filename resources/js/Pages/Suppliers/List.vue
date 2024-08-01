@@ -23,7 +23,8 @@ const addSupplier = () => {
                     <div class="p-6 text-grapy-900">
                         <NavLink :href="route('add-supplier')" >Add</NavLink> <br>
 
-                        table is here
+                        <br>
+                        hello
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Supplier;
 use App\Http\Requests\UpdateItemTypeRequest;
-
+use App\Http\Resources\SupplierListResource;
 use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
@@ -17,11 +17,20 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        return Inertia::render('Suppliers/List', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'item_name'=>'asdfds adf ',
+        
+        ]);
     }
+    public function supplierListJson(Request $request){
+        return SupplierListResource::collection(Supplier::all());
 
+    }
     /**
      * Show the form for creating a new resource.
      */

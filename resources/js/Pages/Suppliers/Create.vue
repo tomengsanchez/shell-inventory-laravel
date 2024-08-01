@@ -23,19 +23,17 @@ const form = useForm({
     name: '',
     address: '',
     contact_number: '',
-    
-    
 });
 
 const addSupplier = () => {
     form.post('add-supplier', {
         preserveScroll: true,
         onSuccess: (data) => {
-            console.log(data);
+            console.log(form);
             form.reset();
         },
         onError: (data) => {
-            console.log(data);
+            console.log(form.errors);
         }
     });
 }
