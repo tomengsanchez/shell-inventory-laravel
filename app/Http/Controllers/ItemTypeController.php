@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Resources\ItemTypeListResource;
 
 
 class ItemTypeController extends Controller
@@ -24,7 +25,7 @@ class ItemTypeController extends Controller
 
     public function list_table(Request $request)
     {
-        return response()->json(ItemType::all());
+        return ItemTypeListResource::collection(ItemType::all());
     }
     public function list(Request $request): Response
     {

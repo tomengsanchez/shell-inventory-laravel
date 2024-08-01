@@ -13,12 +13,23 @@
       </thead>
       <tbody>
         <tr v-for="item in data" :key="item.id">
-          <td class="py-2 px-4 border-b">{{ item.id }}</td>
-          <td class="py-2 px-4 border-b">{{ item.name }}</td>
-          <td class="py-2 px-4 border-b">
+          <td class="py-4 px-8 border-b text-justify">{{ item.id }}</td>
+          <!-- <td class="py-2 px-4 border-b">{{ item.name }}</td> -->
+          <td v-if="!item.editing" class="py-4 px-8 border-b text-justify">{{ item.name }}</td>
+          <td v-if="item.editing" class="py-4 px-8 border-b text-justify"><input v-model="item.name" /></td>
+          <!-- <td class="py-2 px-4 border-b">
             <button @click="updateData(item.id)" class="bg-blue-500 text-white py-1 px-2 rounded">Update</button>
             <button @click="deleteData(item.id)" class="bg-red-500 text-white py-1 px-2 rounded">Delete</button>
+           -->
+
+            <td>
+            <button @click="item.editing ? saveItem(item) : editItem(item) "class="bg-blue-500 text-white py-1 px-2 rounded text-justify">
+              {{ item.editing ? 'Save' : 'Edit' }}
+            </button>
+            <button @click="deleteItem(item.id)" class="bg-red-500 text-white py-1 px-2 rounded text-justify">Delete</button>
           </td>
+          
+          <!-- </td> -->
         </tr>
       </tbody>
     </table>
