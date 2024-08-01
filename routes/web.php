@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemTypeController;
+use App\Http\Controllers\SupplierController;
 use App\Models\ItemType;
+use App\Models\Supplier;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
@@ -44,13 +46,16 @@ Route::get('/item-types-table', [ItemTypeController::class,'list_table'])->middl
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(['auth', 'verified'])->name('store-item-types');
 
+
 Route::post('/item-types-table-update/{id}', [ItemTypeController::class,'update'])->middleware(['auth', 'verified'])->name('item-types-table-update');
 Route::delete('/item-types/{id}', [ItemTypeController::class, 'destroy']);
 
+Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 
-Route::get('/suppliers', function () {
-    return Inertia::render('Suppliers/List');
-})->middleware(['auth', 'verified'])->name('suppliers');
+Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
+Route::get('/suppliers-resource', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('add-supplier');
+Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
+
 
 Route::get('/locations', function () {
     return Inertia::render('Locations/List');
