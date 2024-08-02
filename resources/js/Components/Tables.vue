@@ -1,4 +1,74 @@
-<!-- resources/js/components/DataTable.vue -->
+<script>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+import { Head } from '@inertiajs/vue3';
+
+
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+
+import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import ItemTypesCreateForm from '@/Components/ItemTypes/ItemTypesCreateForm.vue';
+
+defineProps({
+    mustVerifyEmail: boolean,
+    status: string,
+    item_name: string
+}),
+
+
+
+const form = useForm({
+    name: ''
+});
+
+const addItem = () => {
+    form.post('add-item-types', {
+        preserveScroll: true,
+        onSuccess: (data) => {
+
+            console.log(data);
+        },
+        onError: () => {
+            console.log(222);
+        }
+    });
+},
+
+
+export default {
+  data() {
+    return {
+      data: [] // Initialize data as an empty array
+    };
+  },
+  created() {
+    this.fetchData(); // Fetch data when the component is created
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await fetch('/item-types-table'); // Fetch data from the Laravel route
+        if (response.ok) {
+          this.data = await response.json(); // Parse JSON response and assign it to `data`
+        } else {
+          console.error('Failed to fetch data'); // Handle fetch errors
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error); // Handle network errors
+      }
+    }
+  }
+}
+</script>
+
+
+
+
+
 
 <template>
   <div class="container mx-auto p-4">
@@ -37,148 +107,5 @@
   </div>
 </template>
 
-<!-- <script>
-export default {
-  data() {
-    return {
-      data: [] // Initialize data as an empty array
-    };
-  },
-  created() {
-    this.fetchData(); // Fetch data when the component is created
-  },
-  mounted() {
-    fetch('http://127.0.0.1:8000/item-types-table')
-      .then(res => res.json())
-      .then(data => this.data = data)
-      .catch(err => console.log(err.message))
-    },
-    async fetchData() {
-      try {
-        const response = await fetch('/item-types'); // Fetch data from the Laravel route
-        if (response.ok) {
-          this.data = await response.json(); // Parse JSON response and assign it to `data` 
-        } else {
-          console.error('Failed to fetch data'); // Handle fetch errors
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error); // Handle network errors
-      }
-    },
-    async updateData(id) {
-      // Add necessary form data here
-      const formData = new URLSearchParams();
-      formData.append('name', 'Updated Name'); // Example data
-
-      try {
-        const response = await fetch(`/item-types/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: formData
-        });
-
-        if (response.ok) {
-          this.fetchData(); // Refresh data after update
-        } else {
-          console.error('Failed to update data');
-        }
-      } catch (error) {
-        console.error('Error updating data:', error);
-      }
-    },
-    async deleteData(id) {
-      try {
-        const response = await fetch(`/item-types/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          }
-        });
-
-        if (response.ok) {
-          this.fetchData(); // Refresh data after deletion
-        } else {
-          console.error('Failed to delete data');
-        }
-      } catch (error) {
-        console.error('Error deleting data:', error);
-      }
-    }
-  }
-}
-</script> -->
 
 
-<script>
-export default {
-  data() {
-    return {
-      data: [] // Initialize data as an empty array
-    };
-  },
-  created() {
-    this.fetchData(); // Fetch data when the component is created
-  },
-  methods: {
-    async fetchData() {
-      try {
-        const response = await fetch('/item-types-table'); // Fetch data from the Laravel route
-        if (response.ok) {
-          this.data = await response.json(); // Parse JSON response and assign it to `data`
-        } else {
-          console.error('Failed to fetch data'); // Handle fetch errors
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error); // Handle network errors
-      }
-    },
-    async updateData(id) {
-      // Add necessary form data here
-      const formData = new URLSearchParams();
-      formData.append('name', 'Updated Name'); // Example data
-
-      try {
-        const response = await fetch(`/item-types-table-update/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: formData
-        });
-
-        if (response.ok) {
-          this.fetchData(); // Refresh data after update
-        } else {
-          console.error('Failed to update data');
-        }
-      } catch (error) {
-        console.error('Error updating data:', error);
-      }
-    },
-    async deleteData(id) {
-      try {
-        const response = await fetch(`/item-types-table/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          }
-        });
-
-        if (response.ok) {
-          this.fetchData(); // Refresh data after deletion
-        } else {
-          console.error('Failed to delete data');
-        }
-      } catch (error) {
-        console.error('Error deleting data:', error);
-      }
-    }
-  }
-}
-</script>
