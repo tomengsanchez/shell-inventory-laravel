@@ -48,7 +48,7 @@ Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(
 
 
 Route::put('/item-types-table-update/{id}', [ItemTypeController::class,'update'])->middleware(['auth', 'verified'])->name('item-types-table-update');
-Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'delete'])->middleware(['auth', 'verified'])->name('item-types-table-delete');
+Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-types-table-delete');
 
 Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 

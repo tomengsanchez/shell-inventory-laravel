@@ -53,7 +53,7 @@ export default {
       try {
         const response = await fetch('/item-types-table');
         if (response.ok) {
-          this.data = await response.json(); // Parse JSON response and assign it to `data`
+          this.data = await response.json(); // Parse JSON response and assign it to data
         } else {
           console.error('Failed to fetch data');
         }
@@ -65,8 +65,8 @@ export default {
       return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     },
     async saveItem(item) {
-      try {
-        const response = await fetch(`/item-types-table-update/${item.id}`, {
+      try {''
+        const response = await fetch('/item-types-table-update/${item.id}', {
           method: 'PUT', // Use PUT for update requests
           headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export default {
     },
     async deleteItem(id) {
       try {
-        const response = await fetch(`/item-types-table-delete/${id}`, {
+        const response = await fetch('/item-types-table-delete/${id}', {
           method: 'DELETE', // Use DELETE for delete requests
           headers: {
             'X-CSRF-TOKEN': this.getCSRFToken() // Include CSRF token in the request headers

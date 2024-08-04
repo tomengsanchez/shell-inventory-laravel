@@ -83,13 +83,13 @@ class ItemTypeController extends Controller
             'name' => 'required|string|max:255'
         ]);
         
-        // $data = ItemType::findOrFail($id);
-        // $data->update($request->all());
+        $data = ItemType::findOrFail($id);
+        $data->update($request->all());
         // return response()->json(['message' => 'Data updated successfully']);
 
-        $data = ItemType::find($id);
-        $data->name = $request->input('name');
-        $data->save();
+        // $data = ItemType::find($id);
+        // $data->name = $request->input('name');
+        // $data->save();
 
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
