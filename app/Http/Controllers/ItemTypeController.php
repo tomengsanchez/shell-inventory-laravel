@@ -14,11 +14,11 @@ class ItemTypeController extends Controller
 
      public function index(Request $request)
     {
-
         return Inertia::render('ItemTypes/List', [
+
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY1  asdf sdfdas',
+            'name1'=>'JENRY',
             'data' => ItemType::all()
         ]);
     }
@@ -32,7 +32,7 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY1  asdf sdfdas'
+            'name1'=>'JENRY'
         ]);
     }
     public function create(Request $request)
@@ -40,8 +40,7 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'item_name'=>'asdfds adf '
-        
+            'item_name'=>'JENRY'
         ]);
     }
     public function store(Request $request)
@@ -53,7 +52,6 @@ class ItemTypeController extends Controller
         // Create a new item and save it to the database
         $ItemType = new Itemtype();
         $ItemType->name = $request->input('name');
-        $ItemType->new_item = "";
         $ItemType->save();
         
         return Inertia::render('ItemTypes/Create', [
@@ -61,7 +59,6 @@ class ItemTypeController extends Controller
             'status' => session('status'),
             'req'=>$request['name']
         ]);
-    
     }
     
     public function show(ItemType $itemType)
@@ -82,18 +79,37 @@ class ItemTypeController extends Controller
      */
     public function update(UpdateItemTypeRequest $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+        
         $data = ItemType::findOrFail($id);
         $data->update($request->all());
-        return response()->json(['message' => 'Data updated successfully']);
+        // return response()->json(['message' => 'Data updated successfully']);
+
+        // $data = ItemType::find($id);
+        // $data->name = $request->input('name');
+        // $data->save();
+
+        return Inertia::render('ItemTypes/List', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'req'=>$request['name']
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemType $itemType, $id)
+    public function destroy(ItemType $request, $id)
     {
         $data = ItemType::findOrFail($id);
         $data->delete();
-        return response()->json(['message' => 'Data deleted successfully']);
+        
+        return Inertia::render('ItemTypes/List', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'req'=>$request['name']
+        ]);
     }
 }

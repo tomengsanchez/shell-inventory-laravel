@@ -41,6 +41,9 @@ const addItem = () => {
 }
 </script>
 
+
+
+
 <template>
     <Head title="Dashboard" />
 
@@ -54,9 +57,9 @@ const addItem = () => {
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <form @submit.prevent="addItem" class="mt-6 space-y-6">
-                            <InputLabel for="name" value="Item name"></InputLabel>
-                            <TextInput id="current_password" ref="currentPasswordInput" v-model="form.name" type="text"
-                                class="mt-1 block w-full" autocomplete="current-password" />
+                            <InputLabel for="name" value="Input new name"></InputLabel>
+                            <TextInput id="name" ref="name" v-model="form.name" type="text"
+                                class="mt-1 block w-full" autocomplete="off" />
                             <InputError class="mt-2" :message="form.errors.name" />
                             <div class="flex items-center gap-4">
 
