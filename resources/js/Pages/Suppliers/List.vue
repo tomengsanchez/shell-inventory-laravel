@@ -24,7 +24,7 @@ const addSupplier = () => {
                         <NavLink :href="route('add-supplier')" >Add</NavLink> <br>
 
                         <br>
-                        hello
+                        hello sd 
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ import { Head } from '@inertiajs/vue3';
 
                     
                     <SampleComponent></SampleComponent>
+                    
                 </div>
             </div>
         </div>

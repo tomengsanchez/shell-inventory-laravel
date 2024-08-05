@@ -23,13 +23,13 @@ class SupplierController extends Controller
         return Inertia::render('Suppliers/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'item_name'=>'asdfds adf ',
-        
+            'item_name' => 'asdfds adf ',
+
         ]);
     }
-    public function supplierListJson(Request $request){
+    public function supplierListJson(Request $request)
+    {
         return SupplierListResource::collection(Supplier::all());
-
     }
     /**
      * Show the form for creating a new resource.
@@ -37,17 +37,15 @@ class SupplierController extends Controller
     public function create(Request $request)
     {
         //
-        
+
         return Inertia::render('Suppliers/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'item_name'=>'asdfds adf ',
-        
-        ]);
-        
-        
-    }
+            'item_name' => 'asdfds adf ',
 
+        ]);
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -68,14 +66,15 @@ class SupplierController extends Controller
         $supplier->contact_number = $request->contact_number;
 
         $supplier->save();
-        
-      
-      
+
+
+
 
         return Inertia::render('Suppliers/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'message' => $message
+            'message' => $message,
+            'form'
         ]);
     }
 
