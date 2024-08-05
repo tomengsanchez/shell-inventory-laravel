@@ -18,16 +18,12 @@
           </td>
           <td>
             <div class="flex items-center justify-center">
-              <button
-                @click="item.editing ? saveItem(item) : editItem(item)"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                {{ item.editing ? 'Save' : 'Edit' }}
+              <button @click="item.editing ? updateItem(item) : editItem(item)"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                {{ item.editing ? 'Update' : 'Edit' }}
               </button>
-              <button
-                @click="deleteItem(item.id)"
-                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full ml-2"
-              >
+              <button @click="deleteItem(item.id)"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full ml-2">
                 Delete
               </button>
             </div>
@@ -43,16 +39,13 @@ import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 // Define the props to use in your component
-// Define the props using defineProps
 const props = defineProps({
   mustVerifyEmail: Boolean,
   status: String,
   item_name: String
 });
 
-
 const form = useForm({
-  id: '',
   name: ''
 });
 
@@ -71,24 +64,28 @@ const fetchData = async () => {
   }
 };
 
-const saveItem = (item) => {
-  if (!item.name) {
-    console.error('Name is required.');
-    return;
-  }
+// Function to handle the start of editing an item
+const editItem = (item) => {
+  item.editing = true;
+};
 
-  form.put(`/item-types-table-update/${item.id}`, {
-    preserveScroll: true,
-    data: { name: item.name },
-    onSuccess: () => {
-      item.editing = false; // Exit editing mode
-      fetchData(); // Refresh data
-      console.log('Item updated successfully!');
-    },
-    onError: (error) => {
-      console.error('Error saving item:', error);
-    }
-  });
+const updateItem = (item) => {
+    // Create a form instance using useForm
+    const form = useForm({
+      name: item.name,
+    });
+
+    // Send a PUT request to update the item
+    form.put(`/item-types-table-update/${item.id}`, {
+      onSuccess: () => {
+        console.log('Item updated successfully!');
+        // Exit editing mode
+        item.editing = false;
+      },
+      onError: (error) => {
+        console.error('Error updating item:', error);
+      }
+    });
 };
 
 const deleteItem = (id) => {
@@ -105,10 +102,6 @@ const deleteItem = (id) => {
       }
     });
   }
-};
-
-const editItem = (item) => {
-  item.editing = true; // Enable editing mode
 };
 
 onMounted(() => {
