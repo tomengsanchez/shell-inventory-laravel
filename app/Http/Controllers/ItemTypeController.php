@@ -54,10 +54,16 @@ class ItemTypeController extends Controller
         $ItemType->name = $request->input('name');
         $ItemType->save();
         
-        return Inertia::render('ItemTypes/Create', [
+        // return Inertia::render('ItemTypes/List', [
+        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+        //     'status' => session('status'),
+        //     'req'=>$request['name']
+        // ]);
+
+        return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'req'=>$request['name']
+            'req' => $request->input('name')
         ]);
     }
     
@@ -77,39 +83,42 @@ class ItemTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemTypeRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-        
         $data = ItemType::findOrFail($id);
         $data->update($request->all());
-        // return response()->json(['message' => 'Data updated successfully']);
 
-        // $data = ItemType::find($id);
-        // $data->name = $request->input('name');
-        // $data->save();
+        $itemData = [
+            'id' => $data->id,
+            'name' => $data->name
+        ];
 
-        return Inertia::render('ItemTypes/List', [
+        // No need to call $data->save() again because $data->update() already handles saving
+
+        return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'req'=>$request['name']
+            'status' => session('status'),  // Ensure 'status' is defined in the session
+            'updatedName' => $itemData['name']  // Access array value correctly
         ]);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemType $request, $id)
+    public function destroy(Request $request, $id)
     {
-        $data = ItemType::findOrFail($id);
-        $data->delete();
-        
-        return Inertia::render('ItemTypes/List', [
+        $item = ItemType::findOrFail($id);
+        $itemData = [
+            'id'=> $item->id,
+            'name'=> $item->name
+        ];
+        $item->delete();
+
+        return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'req'=>$request['name']
+            'item'=>$itemData
         ]);
     }
 }

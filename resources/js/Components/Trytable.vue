@@ -40,6 +40,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 // Define the props to use in your component
 // Define the props using defineProps
@@ -47,6 +48,12 @@ const props = defineProps({
   mustVerifyEmail: Boolean,
   status: String,
   item_name: String
+});
+
+
+const form = useForm({
+  id: '',
+  name: ''
 });
 
 const data = ref([]); // Initialize data as a reactive reference
@@ -64,48 +71,39 @@ const fetchData = async () => {
   }
 };
 
-const getCSRFToken = () => {
-  return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-};
+const saveItem = (item) => {
+  if (!item.name) {
+    console.error('Name is required.');
+    return;
+  }
 
-const saveItem = async (item) => {
-  try {
-    const response = await fetch(`/item-types-table-update/${item.id}`, {
-      method: 'PUT', // Use PUT for update requests
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': getCSRFToken() // Include CSRF token in the request headers
-      },
-      body: JSON.stringify({ name: item.name }) // Send updated name in the request body
-    });
-
-    if (response.ok) {
+  form.put(`/item-types-table-update/${item.id}`, {
+    preserveScroll: true,
+    data: { name: item.name },
+    onSuccess: () => {
       item.editing = false; // Exit editing mode
       fetchData(); // Refresh data
-    } else {
-      console.error('Failed to save item');
+      console.log('Item updated successfully!');
+    },
+    onError: (error) => {
+      console.error('Error saving item:', error);
     }
-  } catch (error) {
-    console.error('Error saving item:', error);
-  }
+  });
 };
 
-const deleteItem = async (id) => {
-  try {
-    const response = await fetch(`/item-types-table-delete/${id}`, {
-      method: 'DELETE', // Use DELETE for delete requests
-      headers: {
-        'X-CSRF-TOKEN': getCSRFToken() // Include CSRF token in the request headers
+const deleteItem = (id) => {
+  if (confirm('Are you sure you want to delete this item?')) {
+    form.delete(`/item-types-table-delete/${id}`, {
+      preserveScroll: true, // Optional: keeps the scroll position after the request
+      onSuccess: () => {
+        console.log('Item deleted successfully!');
+        // Remove the deleted item from local data
+        data.value = data.value.filter(item => item.id !== id);
+      },
+      onError: (error) => {
+        console.error('Error deleting item:', error);
       }
     });
-
-    if (response.ok) {
-      data.value = data.value.filter(item => item.id !== id); // Remove deleted item from local data
-    } else {
-      console.error('Failed to delete item');
-    }
-  } catch (error) {
-    console.error('Error deleting item:', error);
   }
 };
 
