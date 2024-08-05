@@ -2,8 +2,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import ItemTypesTable from '@/Components/ItemTypes/ItemTypesTable.vue';
 import { Head } from '@inertiajs/vue3';
-import Tables from '@/Components/Tables.vue';
-import Trytable from '@/Components/Trytable.vue';
+import Tables from '@/Components/ItemTypes/Tables.vue';
+import Trytable from '@/Components/ItemTypes/Trytable.vue';
 
 var user = '';
 
@@ -26,8 +26,8 @@ defineProps<{
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
 
-                        <!-- <Tables></Tables> -->
-                        <Trytable></Trytable>
+                        <Tables></Tables>
+                        <!-- <Trytable></Trytable> -->
 
                     </div>
 
