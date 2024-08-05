@@ -1,11 +1,5 @@
 <template>
     <div class="hello">
-        <h1>EWAN KO SAYO</h1>
+        <h1>EWAN  asdf KO SAYO</h1>
     </div>
 </template>
-  
-  
-<script>
-
-
-</script>   
