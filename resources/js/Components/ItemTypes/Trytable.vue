@@ -10,14 +10,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.id">
+        <tr v-for="item in data.data" :key="item.id">
           <td class="text-center py-2 px-8">{{ item.id }}</td>
           <td v-if="!item.editing" class="text-center py-2 px-10">{{ item.name }}</td>
           <td v-if="item.editing" class="text-center py-2 px-10">
             <input v-model="item.name" />
           </td>
           <td>
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center">         
               <button @click="item.editing ? updateItem(item) : editItem(item)"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 {{ item.editing ? 'Update' : 'Edit' }}
@@ -72,7 +72,7 @@ const totalItems = ref(0);
 // Function to fetch data with pagination
 const fetchData = async () => {
   try {
-    const response = await fetch(`/item-types-table?page=${currentPage.value}&limit=10`);
+    const response = await fetch(`/item-types-table`);
     if (response.ok) {
       const result = await response.json();
       data.value = result.data;

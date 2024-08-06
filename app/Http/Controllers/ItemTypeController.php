@@ -26,16 +26,16 @@ class ItemTypeController extends Controller
 
     public function listTable(Request $request)
     {
-        return ItemTypeListResource::collection(ItemType::paginate());
+        return ItemTypeListResource::collection(ItemType::paginate($request['limit']));
         
         // Get pagination parameters
         // $limit = $request->input('limit', 10); // Default to 10 items per page
 
         // // Fetch paginated data
-        // $itemTypes = ItemType::paginate($limit);
+        // $itemTypes = ItemType::paginate(5);
 
-        // return redirect()->route('item-types-table')->with([
-        //     'data' => ItemTypeListResource::collection(ItemType::all()),
+        // return redirect(ItemTypeListResource::collection(ItemType::paginate))->route('item-types-table')->with([
+        //     'data' => ItemTypeListResource::collection(ItemType::paginate()),
         //     'totalItems' => $itemTypes->total(),
         //     'currentPage' => $itemTypes->currentPage(),
         //     'totalPages' => $itemTypes->lastPage(),
