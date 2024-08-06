@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Http\Requests\StoreItemTypeRequest;
 use App\Http\Requests\UpdateItemTypeRequest;
 use Illuminate\Http\Request;
@@ -12,13 +13,13 @@ use App\Http\Resources\ItemTypeListResource;
 class ItemTypeController extends Controller
 {
 
-     public function index(Request $request)
+    public function index(Request $request)
     {
         return Inertia::render('ItemTypes/List', [
 
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY',
+            'name1' => 'JENRY',
             'data' => ItemType::all()
         ]);
     }
@@ -32,7 +33,7 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'name1'=>'JENRY'
+            'name1' => 'JENRY'
         ]);
     }
     public function create(Request $request)
@@ -40,8 +41,16 @@ class ItemTypeController extends Controller
         return Inertia::render('ItemTypes/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'item_name'=>'JENRY'
+            'item_create' => 'create'
         ]);
+
+        // return redirect()->route('add-item-types')->with([
+        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+        //     'status' => session('status'),
+        //     'item_create'=>'create'
+        // ]);
+
+
     }
     public function store(Request $request)
     {
@@ -53,7 +62,7 @@ class ItemTypeController extends Controller
         $ItemType = new Itemtype();
         $ItemType->name = $request->input('name');
         $ItemType->save();
-        
+
         // return Inertia::render('ItemTypes/List', [
         //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
         //     'status' => session('status'),
@@ -66,7 +75,7 @@ class ItemTypeController extends Controller
             'req' => $request->input('name')
         ]);
     }
-    
+
     public function show(ItemType $itemType)
     {
         //
@@ -75,7 +84,7 @@ class ItemTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ItemType $itemType)
+    public function edit(Request $request)
     {
         //
     }
@@ -85,23 +94,24 @@ class ItemTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $data = ItemType::findOrFail($id);
-        $data->update($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $data->update($validated);
 
         $itemData = [
-            'id' => $data->id,
             'name' => $data->name
         ];
-
-        // No need to call $data->save() again because $data->update() already handles saving
-
+    
         return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),  // Ensure 'status' is defined in the session
-            'updatedName' => $itemData['name']  // Access array value correctly
+            'status' => session('status'),
+            'updatedName' => $itemData
         ]);
-
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -110,15 +120,15 @@ class ItemTypeController extends Controller
     {
         $item = ItemType::findOrFail($id);
         $itemData = [
-            'id'=> $item->id,
-            'name'=> $item->name
+            'id' => $item->id,
+            'name' => $item->name
         ];
         $item->delete();
 
         return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'item'=>$itemData
+            'item' => $itemData
         ]);
     }
 }

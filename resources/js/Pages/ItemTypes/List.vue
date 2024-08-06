@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import ItemTypesTable from '@/Components/ItemTypes/ItemTypesTable.vue';
 import { Head } from '@inertiajs/vue3';
 import Tables from '@/Components/ItemTypes/Tables.vue';
 import Trytable from '@/Components/ItemTypes/Trytable.vue';
