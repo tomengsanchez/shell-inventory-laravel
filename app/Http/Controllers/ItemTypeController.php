@@ -27,6 +27,19 @@ class ItemTypeController extends Controller
     public function list_table(Request $request)
     {
         return ItemTypeListResource::collection(ItemType::all());
+        
+        // Get pagination parameters
+        // $limit = $request->input('limit', 10); // Default to 10 items per page
+
+        // // Fetch paginated data
+        // $itemTypes = ItemType::paginate($limit);
+
+        // return redirect()->route('item-types-table')->with([
+        //     'data' => ItemTypeListResource::collection(ItemType::all()),
+        //     'totalItems' => $itemTypes->total(),
+        //     'currentPage' => $itemTypes->currentPage(),
+        //     'totalPages' => $itemTypes->lastPage(),
+        // ]);
     }
     public function list(Request $request): Response
     {
@@ -35,6 +48,8 @@ class ItemTypeController extends Controller
             'status' => session('status'),
             'name1' => 'JENRY'
         ]);
+
+        
     }
     public function create(Request $request)
     {
