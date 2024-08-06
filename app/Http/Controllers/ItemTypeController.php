@@ -24,9 +24,9 @@ class ItemTypeController extends Controller
         ]);
     }
 
-    public function list_table(Request $request)
+    public function listTable(Request $request)
     {
-        return ItemTypeListResource::collection(ItemType::all());
+        return ItemTypeListResource::collection(ItemType::paginate());
         
         // Get pagination parameters
         // $limit = $request->input('limit', 10); // Default to 10 items per page

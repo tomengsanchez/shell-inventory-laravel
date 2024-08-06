@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.id">
+        <tr v-for="item in data.data" :key="item.id">
           <td class="text-center py-2 px-8">{{ item.id }}</td>
           <td v-if="!item.editing" class="text-center py-2 px-10">{{ item.name }}</td>
           <td v-if="item.editing" class="text-center py-2 px-10">

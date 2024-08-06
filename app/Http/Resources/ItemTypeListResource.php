@@ -15,7 +15,8 @@ class ItemTypeListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        JsonResource::withoutWrapping();
+        // JsonResource::withoutWrapping();
+     
         return parent::toArray($request);
 
         // return [
