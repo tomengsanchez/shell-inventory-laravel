@@ -31,8 +31,18 @@
         </tr>
       </tbody>
     </table>
+    <div class="mt-4 flex justify-between">
+      <button @click="prevPage" :disabled="currentPage === 1" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+        Next
+      </button>
+    </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -43,6 +53,11 @@ const props = defineProps({
   mustVerifyEmail: Boolean,
   status: String,
   item_name: String
+
+  // 'data' => ItemTypeListResource::collection(ItemType::all()),
+        //     'totalItems' => $itemTypes->total(),
+        //     'currentPage' => $itemTypes->currentPage(),
+        //     'totalPages' => $itemTypes->lastPage(),
 });
 
 const form = useForm({
@@ -50,17 +65,39 @@ const form = useForm({
 });
 
 const data = ref([]); // Initialize data as a reactive reference
+const currentPage = ref(1);
+const totalPages = ref(1);
+const totalItems = ref(0);
 
+// Function to fetch data with pagination
 const fetchData = async () => {
   try {
-    const response = await fetch('/item-types-table');
+    const response = await fetch(`/item-types-table?page=${currentPage.value}&limit=10`);
     if (response.ok) {
-      data.value = await response.json(); // Parse JSON response and assign it to data
+      const result = await response.json();
+      data.value = result.data;
+      totalPages.value = result.totalPages;
+      totalItems.value = result.totalItems;
     } else {
       console.error('Failed to fetch data');
     }
   } catch (error) {
     console.error('Error fetching data:', error);
+  }
+};
+
+// Functions to handle pagination
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    fetchData();
+  }
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    fetchData();
   }
 };
 
@@ -70,22 +107,22 @@ const editItem = (item) => {
 };
 
 const updateItem = (item) => {
-    // Create a form instance using useForm
-    const form = useForm({
-      name: item.name,
-    });
+  // Create a form instance using useForm
+  const form = useForm({
+    name: item.name,
+  });
 
-    // Send a PUT request to update the item
-    form.put(`/item-types-table-update/${item.id}`, {
-      onSuccess: () => {
-        console.log('Item updated successfully!');
-        // Exit editing mode
-        item.editing = false;
-      },
-      onError: (error) => {
-        console.error('Error updating item:', error);
-      }
-    });
+  // Send a PUT request to update the item
+  form.put(`/item-types-table-update/${item.id}`, {
+    onSuccess: () => {
+      console.log('Item updated successfully!');
+      // Exit editing mode
+      item.editing = false;
+    },
+    onError: (error) => {
+      console.error('Error updating item:', error);
+    }
+  });
 };
 
 const deleteItem = (id) => {
