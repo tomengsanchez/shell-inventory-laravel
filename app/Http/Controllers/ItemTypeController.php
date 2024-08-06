@@ -23,10 +23,10 @@ class ItemTypeController extends Controller
             'data' => ItemType::all()
         ]);
     }
-
+    
     public function listTable(Request $request)
     {
-        return ItemTypeListResource::collection(ItemType::paginate($request['limit']));
+        return ItemTypeListResource::collection(ItemType::paginate($request['limit'],['id','name'],'Item Type',$request['page']));
         
         // Get pagination parameters
         // $limit = $request->input('limit', 10); // Default to 10 items per page

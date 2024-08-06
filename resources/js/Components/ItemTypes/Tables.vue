@@ -32,12 +32,13 @@
       </tbody>
     </table>
     <div class="mt-4 flex justify-between">
+      
       <button @click="prevPage" :disabled="currentPage === 1" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
         Previous
       </button>
       <span>Page {{ currentPage }} of {{ totalPages }}</span>
       <button @click="nextPage" :disabled="currentPage === totalPages" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
-        Next
+        Next 1
       </button>
     </div>
   </div>
@@ -47,6 +48,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import Dropdown from '../Dropdown.vue';
 
 // Define the props to use in your component
 const props = defineProps({
@@ -65,16 +67,26 @@ const form = useForm({
 });
 
 const data = ref([]); // Initialize data as a reactive reference
-const currentPage = ref(1);
-const totalPages = ref(1);
-const totalItems = ref(0);
+var currentPage = 1;
+var totalPages = 0;
+var totalItems = ref(0);
+
 
 // Function to fetch data with pagination
 const fetchData = async () => {
   try {
-    const response = await fetch(`/item-types-table?page=${currentPage.value}&limit=5`);
+    const response = await fetch(`/item-types-table?page=${currentPage}&limit=2`);
+    
     if (response.ok) {
-      data.value = await response.json(); // Parse JSON response and assign it to data
+      var jsonResponse = [];
+      jsonResponse = await response.json();
+      
+      data.value = jsonResponse; // Parse JSON response and assign it to data
+      currentPage = jsonResponse.meta.current_page;
+      console.log(currentPage);
+      totalPages = jsonResponse.meta.last_page;
+      // alert(currentPage);
+      
     } else {
       console.error('Failed to fetch data');
     }
@@ -85,19 +97,26 @@ const fetchData = async () => {
 
 
 // Functions to handle pagination
-// const nextPage = () => {
-//   if (currentPage.value < totalPages.value) {
-//     currentPage.value++;
-//     fetchData();
-//   }
-// };
+const nextPage = () => {
+  // alert(1);
+  
+  
+  if (parseInt(currentPage) < parseInt(totalPages)) {
+    currentPage= parseInt(currentPage) + 1;
+    currentPage = parseInt(currentPage);
+     fetchData();
+  }
 
-// const prevPage = () => {
-//   if (currentPage.value > 1) {
-//     currentPage.value--;
-//     fetchData();
-//   }
-// };
+  
+  
+};
+
+const prevPage = () => {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchData();
+  }
+};
 
 // Function to handle the start of editing an item
 const editItem = (item) => {
