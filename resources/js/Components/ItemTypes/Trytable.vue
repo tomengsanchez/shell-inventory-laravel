@@ -1,6 +1,15 @@
 <template>
   <div class="container mx-auto p-4">
     <h1 class="text-xl font-bold mb-4">Data List</h1>
+    <div class="mb-4">
+      <label for="items-per-page" class="mr-2">Items per page:</label>
+      <select v-model="pageLimit" @change="fetchData" id="items-per-page" class="border py-2 px-6 rounded">
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+      </select>
+      <input v-model="searchTerm" @keyup="fetchData" type="text" placeholder="Search..." class="border py-2 px-4 rounded float-right" />
+    </div>
     <table class="min-w-full bg-white">
       <thead>
         <tr>
@@ -17,7 +26,7 @@
             <input v-model="item.name" />
           </td>
           <td>
-            <div class="flex items-center justify-center">         
+            <div class="flex items-center justify-center">
               <button @click="item.editing ? updateItem(item) : editItem(item)"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 {{ item.editing ? 'Update' : 'Edit' }}
@@ -47,37 +56,41 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import Dropdown from '../Dropdown.vue';
 
 // Define the props to use in your component
 const props = defineProps({
   mustVerifyEmail: Boolean,
-  status: String,
-  item_name: String
-
-  // 'data' => ItemTypeListResource::collection(ItemType::all()),
-        //     'totalItems' => $itemTypes->total(),
-        //     'currentPage' => $itemTypes->currentPage(),
-        //     'totalPages' => $itemTypes->lastPage(),
+  status: String
 });
 
 const form = useForm({
+  id: '',
   name: ''
 });
 
 const data = ref([]); // Initialize data as a reactive reference
-const currentPage = ref(1);
-const totalPages = ref(1);
-const totalItems = ref(0);
+var currentPage = 1;
+var totalPages = 0;
+var pageLimit = 0;
+var searchTerm = ref('');
 
 // Function to fetch data with pagination
 const fetchData = async () => {
+
   try {
-    const response = await fetch(`/item-types-table`);
+    const response = await fetch(`/item-types-table?page=${currentPage}&limit=${pageLimit}&search=${encodeURIComponent(searchTerm.value)}`);
+    
     if (response.ok) {
-      const result = await response.json();
-      data.value = result.data;
-      totalPages.value = result.totalPages;
-      totalItems.value = result.totalItems;
+      var jsonResponse = [];
+      jsonResponse = await response.json();
+      
+      data.value = jsonResponse; // Parse JSON response and assign it to data
+      currentPage = jsonResponse.meta.current_page;
+      totalPages = jsonResponse.meta.last_page;
+      // if (currentPage > totalPages){
+      //   alert("Select new items per page!");
+      // }
     } else {
       console.error('Failed to fetch data');
     }
@@ -86,17 +99,19 @@ const fetchData = async () => {
   }
 };
 
+
 // Functions to handle pagination
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    fetchData();
+  // alert(1);
+  if (currentPage < totalPages) {
+    currentPage++;
+     fetchData();
   }
 };
 
 const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
+  if (currentPage > 1) {
+    currentPage--;
     fetchData();
   }
 };

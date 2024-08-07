@@ -41,6 +41,7 @@ Route::get('/items', function () {
     return Inertia::render('Items/List');
 })->middleware(['auth', 'verified'])->name('items');
 
+
 Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types');
 Route::get('/item-types-table', [ItemTypeController::class,'listTable'])->middleware(['auth', 'verified'])->name('item-types-table');
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');

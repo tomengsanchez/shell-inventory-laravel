@@ -16,30 +16,48 @@ class ItemTypeController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('ItemTypes/List', [
-
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'name1' => 'JENRY',
             'data' => ItemType::all()
         ]);
     }
-    
+
     public function listTable(Request $request)
     {
-        return ItemTypeListResource::collection(ItemType::paginate($request['limit'],['id','name'],'Item Type',$request['page']));
+        // $perPage = $request->input('limit', 5);
+        // $search = $request->input('search', '');
+
+        // $query = ItemType::query();
+
+        // if ($search) {
+        //     $query->where('name', 'LIKE', "%{$search}%");
+        // }
+
+        // $items = $query->paginate($perPage);
+
+        // return response()->json($items);
+
         
-        // Get pagination parameters
-        // $limit = $request->input('limit', 10); // Default to 10 items per page
+        // Retrieve search term from the request
 
-        // // Fetch paginated data
-        // $itemTypes = ItemType::paginate(5);
+        // $searchData = ItemTypeListResource::collection(ItemType::all());
 
-        // return redirect(ItemTypeListResource::collection(ItemType::paginate))->route('item-types-table')->with([
-        //     'data' => ItemTypeListResource::collection(ItemType::paginate()),
-        //     'totalItems' => $itemTypes->total(),
-        //     'currentPage' => $itemTypes->currentPage(),
-        //     'totalPages' => $itemTypes->lastPage(),
-        // ]);
+        // $searchTerm = $request->input('searchTerm', '');
+        // // Build the query with a search filter if a search term is provided
+        // $query = ItemType::query();
+
+        // if (!empty($searchTerm)) {
+        //     $query->where('name', 'like', '%' . $searchTerm . '%');
+        // }
+        // // $result = $searchData;
+        // // Paginate the results with the given limit and page parameters
+        // $itemTypes = $query->paginate($request->input('limit', 10), ['id', 'name'], 'page', $request->input('page', 1));
+
+        // return $itemTypes;
+
+        return ItemTypeListResource::collection(ItemType::paginate($request['limit'],['id','name'],'Item Type',$request['page']));
+
     }
     public function list(Request $request): Response
     {
@@ -48,8 +66,6 @@ class ItemTypeController extends Controller
             'status' => session('status'),
             'name1' => 'JENRY'
         ]);
-
-        
     }
     public function create(Request $request)
     {
@@ -119,7 +135,7 @@ class ItemTypeController extends Controller
         $itemData = [
             'name' => $data->name
         ];
-    
+
         return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
