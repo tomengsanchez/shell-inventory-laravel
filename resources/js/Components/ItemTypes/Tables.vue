@@ -8,7 +8,7 @@
         <option value="5">5</option>
         <option value="10">10</option>
       </select>
-      <input v-model="searchQuery" @keyup="fetchData" type="text" placeholder="Search..." class="border py-2 px-4 rounded float-right" />
+      <input v-model="searchTerm" @keyup="fetchData" type="text" placeholder="Search..." class="border py-2 px-4 rounded float-right" />
     </div>
     <table class="min-w-full bg-white">
       <thead>
@@ -73,12 +73,13 @@ const data = ref([]); // Initialize data as a reactive reference
 var currentPage = 1;
 var totalPages = 0;
 var pageLimit = 0;
-
+var searchTerm = ref('');
 
 // Function to fetch data with pagination
 const fetchData = async () => {
+
   try {
-    const response = await fetch(`/item-types-table?page=${currentPage}&limit=${pageLimit}`);
+    const response = await fetch(`/item-types-table?page=${currentPage}&limit=${pageLimit}&search=${encodeURIComponent(searchTerm.value)}`);
     
     if (response.ok) {
       var jsonResponse = [];
@@ -87,9 +88,9 @@ const fetchData = async () => {
       data.value = jsonResponse; // Parse JSON response and assign it to data
       currentPage = jsonResponse.meta.current_page;
       totalPages = jsonResponse.meta.last_page;
-      // if (currentPage > totalPages){
-      //   alert("Select new items per page!");
-      // }
+      if (currentPage > totalPages){
+        alert("Not a valid action!");
+      }
     } else {
       console.error('Failed to fetch data');
     }
@@ -102,8 +103,6 @@ const fetchData = async () => {
 // Functions to handle pagination
 const nextPage = () => {
   // alert(1);
-  
-  
   if (currentPage < totalPages) {
     currentPage++;
      fetchData();

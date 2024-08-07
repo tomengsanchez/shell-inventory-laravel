@@ -25,38 +25,26 @@ class ItemTypeController extends Controller
 
     public function listTable(Request $request)
     {
-        // $perPage = $request->input('limit', 5);
-        // $search = $request->input('search', '');
+        // Extract limit and search query from the request
+        $limit = $request->input('limit', 10); // Default to 10 if not provided
+        $search = $request->input('search', ''); // Default to empty string if not provided
+        $page = $request->input('page', 1); // Default to 1 if not provided
 
-        // $query = ItemType::query();
+        // Query the ItemType model
+        $query = ItemType::query();
 
-        // if ($search) {
-        //     $query->where('name', 'LIKE', "%{$search}%");
-        // }
+        // If there's a search input, apply filtering
+        if (!empty($search)) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
 
-        // $items = $query->paginate($perPage);
+        // Paginate the results
+        $itemTypes = $query->paginate($limit, ['id', 'name'], 'page', $page);
 
-        // return response()->json($items);
-
+        // Return paginated results as JSON using the resource
+        return ItemTypeListResource::collection($itemTypes);
         
-        // Retrieve search term from the request
-
-        // $searchData = ItemTypeListResource::collection(ItemType::all());
-
-        // $searchTerm = $request->input('searchTerm', '');
-        // // Build the query with a search filter if a search term is provided
-        // $query = ItemType::query();
-
-        // if (!empty($searchTerm)) {
-        //     $query->where('name', 'like', '%' . $searchTerm . '%');
-        // }
-        // // $result = $searchData;
-        // // Paginate the results with the given limit and page parameters
-        // $itemTypes = $query->paginate($request->input('limit', 10), ['id', 'name'], 'page', $request->input('page', 1));
-
-        // return $itemTypes;
-
-        return ItemTypeListResource::collection(ItemType::paginate($request['limit'],['id','name'],'Item Type',$request['page']));
+        // return ItemTypeListResource::collection(ItemType::paginate($request['limit'], ['id', 'name'], 'Item Type', $request['page']));
 
     }
     public function list(Request $request): Response
