@@ -54,7 +54,7 @@ Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'dest
 Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 
 Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
-Route::get('/suppliers-resource', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('add-supplier');
+// Route::get('/suppliers-resource', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('add-supplier');
 Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
 
 
