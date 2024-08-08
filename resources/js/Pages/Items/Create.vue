@@ -36,13 +36,16 @@ const addItem = () => {
         }
     });
 }
-
+const item_types = ref([]);
 const fetchData = async () => {
     try {
+        var jsonResponse = [];
         const response = await fetch('item-types-table'); // Replace with your API endpoint
-        const data = await response.json();
-        console.log(response);
-        data.value = data; // Update the reactive variable with the fetched data
+        jsonResponse = await response.json();
+        // console.log(item_data);
+        data.value = jsonResponse;
+        console.log(data.value);
+        
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -52,7 +55,7 @@ const fetchData = async () => {
 onMounted(() => {
     fetchData();
 });
-
+var item_type=ref([]);
 </script>
 
 <template>
@@ -63,6 +66,7 @@ onMounted(() => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Items </h2>
         </template>
+
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -76,8 +80,9 @@ onMounted(() => {
 
 
                             <InputLabel for="item_types" value="Item Types"></InputLabel>
-                            <TextInput id="item_types" ref="item_types" v-model="form.item_types" type="text"
-                                class="mt-1 block w-full" autocomplete="off" />
+                            <select name="" id="" >
+                                <option v-for="i in data.data" :value='i.id'>{{ i.name }}</option>
+                            </select>
                             <InputError class="mt-2" :message="form.errors.item_types" />
 
                             <div class="flex items-center gap-4">
