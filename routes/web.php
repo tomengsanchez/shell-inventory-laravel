@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemTypeController;
 use App\Http\Controllers\SupplierController;
@@ -42,22 +43,27 @@ Route::get('/items', function () {
 })->middleware(['auth', 'verified'])->name('items');
 
 
-Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types');
+// Routes for Items
+Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', 'verified'])->name('add-item');
+
+// Routes for Item Types
+Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types'); 
 Route::get('/item-types-table', [ItemTypeController::class,'listTable'])->middleware(['auth', 'verified'])->name('item-types-table');
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(['auth', 'verified'])->name('store-item-types');
-
-
 Route::put('/item-types-table-update/{id}', [ItemTypeController::class,'update'])->middleware(['auth', 'verified'])->name('item-types-table-update');
 Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-types-table-delete');
 
-Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 
+
+// Routes for Supplier
+Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
 // Route::get('/suppliers-resource', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('add-supplier');
 Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
 
 
+// Routes for Location
 Route::get('/locations', function () {
     return Inertia::render('Locations/List');
 })->middleware(['auth', 'verified'])->name('locations');

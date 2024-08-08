@@ -1,0 +1,99 @@
+<script setup lang="ts">
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import Dropdown from '@/Components/Dropdown.vue';
+import { ref, onMounted } from 'vue';
+
+defineProps<{
+    mustVerifyEmail?: boolean;
+    status?: string
+}>()
+
+var form = useForm({
+    id: '',
+    item_name: '',
+    item_types: '',
+});
+
+
+
+const data = ref([]); // Initialize data as a reactive reference
+
+const addItem = () => {
+    form.post('add-item', {
+        preserveScroll: true,
+        onSuccess: (data) => {
+
+            console.log(data);
+        },
+        onError: () => {
+            console.log(222);
+        }
+    });
+}
+
+const fetchData = async () => {
+    try {
+        const response = await fetch('item-types-table'); // Replace with your API endpoint
+        const data = await response.json();
+        console.log(response);
+        data.value = data; // Update the reactive variable with the fetched data
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
+
+// Fetch data when the component is mounted
+onMounted(() => {
+    fetchData();
+});
+
+</script>
+
+<template>
+
+    <Head title="Dashboard" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Items </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <form @submit.prevent="addItem" class="mt-6 space-y-6">
+                            <InputLabel for="item_name" value="Item Name"></InputLabel>
+                            <TextInput id="item_name" ref="item_name" v-model="form.item_name" type="text"
+                                class="mt-1 block w-full" autocomplete="off" />
+                            <InputError class="mt-2" :message="form.errors.item_name" />
+
+
+                            <InputLabel for="item_types" value="Item Types"></InputLabel>
+                            <TextInput id="item_types" ref="item_types" v-model="form.item_types" type="text"
+                                class="mt-1 block w-full" autocomplete="off" />
+                            <InputError class="mt-2" :message="form.errors.item_types" />
+
+                            <div class="flex items-center gap-4">
+
+                                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+
+                                <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
+                                    leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
+                                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
+                                </Transition>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>

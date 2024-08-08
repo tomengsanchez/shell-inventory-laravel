@@ -43,11 +43,11 @@ class ItemTypeController extends Controller
 
         // Return paginated results as JSON using the resource
         return ItemTypeListResource::collection($itemTypes);
-        
+
         // return ItemTypeListResource::collection(ItemType::paginate($request['limit'], ['id', 'name'], 'Item Type', $request['page']));
 
     }
-    public function list(Request $request): Response
+    public function list(Request $request)
     {
         return Inertia::render('ItemTypes/List', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,

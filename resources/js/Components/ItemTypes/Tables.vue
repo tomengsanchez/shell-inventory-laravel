@@ -88,9 +88,9 @@ const fetchData = async () => {
       data.value = jsonResponse; // Parse JSON response and assign it to data
       currentPage = jsonResponse.meta.current_page;
       totalPages = jsonResponse.meta.last_page;
-      if (currentPage > totalPages){
-        alert("Not a valid action!");
-      }
+      // if (currentPage > totalPages){
+      //   alert("Not a valid action!");
+      // }
     } else {
       console.error('Failed to fetch data');
     }
