@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemTypeListResource;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\ItemType;
 use Inertia\Inertia;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -21,6 +23,12 @@ class ItemController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+     public function listItemTypes(Request $request)
+    {
+        return ItemTypeListResource::collection(ItemType::all());
+
+    }
     public function create(Request $request)
     {
         return Inertia::render('Items/Create', [
@@ -29,18 +37,33 @@ class ItemController extends Controller
             'item_create' => 'create'
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'item_name' => 'required|string|max:255',
+            'item_types' => 'required|string|max:255'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
+        // Create a new item and save it to the database
+        $ItemType = new Item();
+        $ItemType->item_name = $request->input('item_name');
+        $ItemType->item_types = $request->input('item_types');
+        $ItemType->save();
+
+        // return Inertia::render('ItemTypes/List', [
+        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+        //     'status' => session('status'),
+        //     'req'=>$request['name']
+        // ]);
+
+        return redirect()->route('items')->with([
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'item_name' => $request->input('item_name'),
+            'item_types' => $request->input('item_types'),
+
+        ]);
+    }
     public function show(Item $item)
     {
         //

@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
+        'canLogin' => Route::has('login'), 
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
@@ -44,10 +44,12 @@ Route::get('/items', function () {
 
 
 // Routes for Items
+Route::post('/store-item', [ItemController::class,'store'])->middleware(['auth', 'verified'])->name('store-item');
 Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', 'verified'])->name('add-item');
+Route::get('/item-table', [ItemController::class,'listItemTypes'])->middleware(['auth', 'verified'])->name('item-table');
 
 // Routes for Item Types
-Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types'); 
+Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types');
 Route::get('/item-types-table', [ItemTypeController::class,'listTable'])->middleware(['auth', 'verified'])->name('item-types-table');
 Route::get('/add-item-types', [ItemTypeController::class,'create'])->middleware(['auth', 'verified'])->name('add-item-types');
 Route::post('/add-item-types', [ItemTypeController::class,'store'])->middleware(['auth', 'verified'])->name('store-item-types');

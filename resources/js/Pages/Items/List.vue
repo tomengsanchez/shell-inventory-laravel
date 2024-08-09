@@ -2,9 +2,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import NavLink from '@/Components/NavLink.vue';
+import Tables from '@/Components/Items/Tables.vue';
 </script>
 
 <template>
+
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
@@ -15,7 +17,9 @@ import NavLink from '@/Components/NavLink.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <NavLink :href="route('add-item')" >Add</NavLink> <br>
+                    <div class="p-6 text-gray-900">
+                        <Tables></Tables>
+                    </div>
                 </div>
             </div>
         </div>

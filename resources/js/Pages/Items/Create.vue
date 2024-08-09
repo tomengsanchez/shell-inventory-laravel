@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
@@ -6,18 +6,17 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import Dropdown from '@/Components/Dropdown.vue';
 import { ref, onMounted } from 'vue';
 
-defineProps<{
-    mustVerifyEmail?: boolean;
-    status?: string
-}>()
+const props = defineProps({
+  mustVerifyEmail: Boolean,
+  status: String,
+  name1: String
+});
 
 var form = useForm({
-    id: '',
     item_name: '',
-    item_types: '',
+    item_types: ''
 });
 
 
@@ -25,10 +24,9 @@ var form = useForm({
 const data = ref([]); // Initialize data as a reactive reference
 
 const addItem = () => {
-    form.post('add-item', {
+    form.post('store-item', {
         preserveScroll: true,
         onSuccess: (data) => {
-
             console.log(data);
         },
         onError: () => {
@@ -40,11 +38,9 @@ const item_types = ref([]);
 const fetchData = async () => {
     try {
         var jsonResponse = [];
-        const response = await fetch('item-types-table'); // Replace with your API endpoint
+        const response = await fetch('item-table'); // Replace with your API endpoint
         jsonResponse = await response.json();
-        // console.log(item_data);
         data.value = jsonResponse;
-        console.log(data.value);
         
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -80,8 +76,8 @@ var item_type=ref([]);
 
 
                             <InputLabel for="item_types" value="Item Types"></InputLabel>
-                            <select name="" id="" >
-                                <option v-for="i in data.data" :value='i.id'>{{ i.name }}</option>
+                            <select v-model="form.item_types">
+                                <option v-for="i in data.data" :value='i.name'>{{ i.name }}</option>
                             </select>
                             <InputError class="mt-2" :message="form.errors.item_types" />
 
