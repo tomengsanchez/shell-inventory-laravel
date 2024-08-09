@@ -1,6 +1,8 @@
 <template>
   <div class="container mx-auto p-4">
-    <h1 class="text-xl font-bold mb-4">Data List</h1>
+    <NavLink :href="route('add-item-types')" class="inline-block bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600">
+  Add New Item Type
+</NavLink> <br><br>
     <div class="mb-4">
       <label for="items-per-page" class="mr-2">Items per page:</label>
       <select v-model="pageLimit" @change="fetchData" id="items-per-page" class="border py-2 px-6 rounded">
@@ -54,9 +56,9 @@
 
 
 <script setup>
+import NavLink from '@/Components/NavLink.vue';
 import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import Dropdown from '../Dropdown.vue';
 
 // Define the props to use in your component
 const props = defineProps({
