@@ -40,7 +40,6 @@ class ItemTypeController extends Controller
 
         // Paginate the results
         $itemTypes = $query->paginate($limit, ['id', 'name'], 'page', $page);
-        $itemTypes['columns'] = ['a','b','c'];
         // Return paginated results as JSON using the resource
         return ItemTypeListResource::collection($itemTypes);
 

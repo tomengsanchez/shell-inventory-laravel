@@ -16,7 +16,7 @@ const props = defineProps({
 
 var form = useForm({
     item_name: '',
-    item_types: ''
+    item_type_id: ''
 });
 
 
@@ -38,7 +38,7 @@ const item_types = ref([]);
 const fetchData = async () => {
     try {
         var jsonResponse = [];
-        const response = await fetch('item-table'); // Replace with your API endpoint
+        const response = await fetch('dropdown-item-types'); // Replace with your API endpoint
         jsonResponse = await response.json();
         data.value = jsonResponse;
         
@@ -76,8 +76,8 @@ var item_type=ref([]);
 
 
                             <InputLabel for="item_types" value="Item Types"></InputLabel>
-                            <select v-model="form.item_types">
-                                <option v-for="i in data.data" :value='i.name'>{{ i.name }}</option>
+                            <select v-model="form.item_type_id">
+                                <option v-for="i in data.data" :value='i.id'>{{ i.name }}</option>
                             </select>
                             <InputError class="mt-2" :message="form.errors.item_types" />
 
