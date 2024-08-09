@@ -74,7 +74,7 @@ const form = useForm({
 const data = ref([]); // Initialize data as a reactive reference
 var currentPage = 1;
 var totalPages = 0;
-var pageLimit = 0;
+var pageLimit = 20;
 var searchTerm = ref('');
 
 // Function to fetch data with pagination
@@ -90,9 +90,6 @@ const fetchData = async () => {
       data.value = jsonResponse; // Parse JSON response and assign it to data
       currentPage = jsonResponse.meta.current_page;
       totalPages = jsonResponse.meta.last_page;
-      // if (currentPage > totalPages){
-      //   alert("Not a valid action!");
-      // }
     } else {
       console.error('Failed to fetch data');
     }
@@ -104,7 +101,6 @@ const fetchData = async () => {
 
 // Functions to handle pagination
 const nextPage = () => {
-  // alert(1);
   if (currentPage < totalPages) {
     currentPage++;
      fetchData();
@@ -133,6 +129,7 @@ const updateItem = (item) => {
   form.put(`/item-types-table-update/${item.id}`, {
     onSuccess: () => {
       console.log('Item updated successfully!');
+      fetchData();
       // Exit editing mode
       item.editing = false;
     },
@@ -148,6 +145,7 @@ const deleteItem = (id) => {
       preserveScroll: true, // Optional: keeps the scroll position after the request
       onSuccess: () => {
         console.log('Item deleted successfully!');
+        fetchData();
         // Remove the deleted item from local data
         data.value = data.value.filter(item => item.id !== id);
       },
