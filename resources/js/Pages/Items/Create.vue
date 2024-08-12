@@ -9,17 +9,17 @@ import TextInput from '@/Components/TextInput.vue';
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({
-  mustVerifyEmail: Boolean,
-  status: String,
-  name1: String
+    mustVerifyEmail: Boolean,
+    status: String,
+    item_name: String,
+    item_type_id: String,
+    edit: Boolean
 });
 
 var form = useForm({
     item_name: '',
     item_type_id: ''
 });
-
-
 
 const data = ref([]); // Initialize data as a reactive reference
 
@@ -34,14 +34,13 @@ const addItem = () => {
         }
     });
 }
-const item_types = ref([]);
 const fetchData = async () => {
     try {
         var jsonResponse = [];
-        const response = await fetch('dropdown-item-types'); // Replace with your API endpoint
+        const response = await fetch('dropdown-item-types');
         jsonResponse = await response.json();
         data.value = jsonResponse;
-        
+
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -51,7 +50,23 @@ const fetchData = async () => {
 onMounted(() => {
     fetchData();
 });
-var item_type=ref([]);
+
+const fetchData1 = async () => {
+    try {
+        var jsonResponse = [];
+        const response = await fetch('index');
+        jsonResponse = await response.json();
+        data.value = jsonResponse;
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
+
+// Fetch data when the component is mounted
+onMounted(() => {
+    fetchData1();
+});
 </script>
 
 <template>
@@ -91,6 +106,12 @@ var item_type=ref([]);
                                 </Transition>
                             </div>
                         </form>
+
+                        <div class="item-info">
+                            <h2>Item Information</h2>
+                            <p><strong>Item Name:</strong> {{ item_name }}</p>
+                            <p><strong>Item Type ID:</strong> {{ item_type_id }}</p>
+                        </div>
 
                     </div>
                 </div>

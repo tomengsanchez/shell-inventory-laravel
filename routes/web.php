@@ -44,8 +44,11 @@ Route::get('/items', function () {
 // Routes for Items
 Route::post('/store-item', [ItemController::class,'store'])->middleware(['auth', 'verified'])->name('store-item');
 Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', 'verified'])->name('add-item');
+Route::get('/index', [ItemController::class,'index'])->middleware(['auth', 'verified'])->name('index');
 Route::get('/dropdown-item-types', [ItemController::class,'DropdownItemTypes'])->middleware(['auth', 'verified'])->name('dropdown-item-types');
 Route::get('/item-table-data', [ItemController::class,'listItemData'])->middleware(['auth', 'verified'])->name('item-types-table');
+Route::post('/item-table-edit', [ItemController::class,'edit'])->middleware(['auth', 'verified'])->name('item-table-edit');
+Route::put('/item-table-update/{id}', [ItemController::class,'update'])->middleware(['auth', 'verified'])->name('item-table-update');
 Route::delete('/item-table-delete/{id}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-table-delete');
 
 

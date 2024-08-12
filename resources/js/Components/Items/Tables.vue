@@ -37,9 +37,9 @@
 
                     <td>
                         <div class="flex items-center justify-center">
-                            <button @click="item.editing ? updateItem(item) : editItem(item)"
+                            <button @click="editItem(item)"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                                {{ item.editing ? 'Update' : 'Edit' }}
+                                Edit
                             </button>
 
                             <button @click="deleteItem(item.id)"
@@ -70,7 +70,7 @@
 
 <script setup>
 import NavLink from '@/Components/NavLink.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, resolveComponent } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 // Define the props to use in your component
@@ -129,29 +129,30 @@ const prevPage = () => {
     }
 };
 
-// Function to handle the start of editing an item
 const editItem = (item) => {
-    item.editing = true;
-};
+  // Update form with current item values
+  form.id = item.id;
+  form.item_name = item.item_name;
+  form.item_type_id = item.item_type_name;
 
-const updateItem = (item) => {
-    // Create a form instance using useForm
-    const form = useForm({
-        name: item.name,
-    });
+  console.log(item.id);
+  console.log(item.item_name);
+  console.log(item.item_type_name);
 
-    // Send a PUT request to update the item
-    form.put(`/item-types-table-update/${item.id}`, {
-        onSuccess: () => {
-            console.log('Item updated successfully!');
-            fetchData();
-            // Exit editing mode
-            item.editing = false;
-        },
-        onError: (error) => {
-            console.error('Error updating item:', error);
-        }
-    });
+  // Make a POST request to fetch the item details
+  form.post('/item-table-edit', { // Adjust URL as necessary
+    data: { id: item.id },
+    preserveScroll: true,
+    onSuccess: (data) => {
+      console.log(data);
+      // Optionally update the form fields with the fetched data
+      form.item_name = data.item_name;
+      form.item_type_name = data.item_type_name;
+    },
+    onError: () => {
+      console.log('Error fetching item');
+    }
+  });
 };
 
 const deleteItem = (id) => {
