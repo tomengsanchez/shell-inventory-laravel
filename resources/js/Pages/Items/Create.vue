@@ -34,6 +34,25 @@ const addItem = () => {
         }
     });
 }
+
+const tableItem = async () => {
+    try {
+        var jsonResponse = [];
+        const response = await fetch('item-show');
+        jsonResponse = await response.json();
+        data.value = jsonResponse;
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
+
+// Fetch data when the component is mounted
+onMounted(() => {
+    tableItem();
+});
+
+
 const fetchData = async () => {
     try {
         var jsonResponse = [];
@@ -51,22 +70,6 @@ onMounted(() => {
     fetchData();
 });
 
-const fetchData1 = async () => {
-    try {
-        var jsonResponse = [];
-        const response = await fetch('index');
-        jsonResponse = await response.json();
-        data.value = jsonResponse;
-
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-};
-
-// Fetch data when the component is mounted
-onMounted(() => {
-    fetchData1();
-});
 </script>
 
 <template>
