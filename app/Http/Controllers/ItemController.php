@@ -155,16 +155,18 @@ class ItemController extends Controller
     {
         return response()->json($this->data);
     }
-    public function itemEdit($data)
+    public function itemEdit(Request $request)
     {
-        $itemName = 'name';
-        $itemID = 123;
+        $itemName = $request->input('item_name');
+        $itemTypeID = $request->input('item_type_id');
 
-        $data = $itemName . ' ' . $itemID;
-        
-        $this->data = $data;
-
-        
-
+        return Inertia::render('Items/Create', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'form_type' => 'edit',
+            'item_id' => 'id',
+            'item_name' => $itemName,
+            'item_type_id' => $itemTypeID
+        ]);
     }
 }

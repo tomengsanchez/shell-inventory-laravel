@@ -115,7 +115,6 @@ onMounted(() => {
                             <p><strong>Item Name:</strong> {{ item_name }}</p>
                             <p><strong>Item Type ID:</strong> {{ item_type_id }}</p>
                         </div>
-
                     </div>
                 </div>
             </div>
