@@ -12,37 +12,13 @@ use Illuminate\Support\Facades\Session;
 
 class ItemController extends Controller
 {
+    protected $data;
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        // Retrieve the stored item details from the session
-        $itemName = Session::get('item_name');
-        $itemType = Session::get('item_type');
-
-        return $itemName . ' ' . $itemType;
-
-
-
-        // Build the query with joins
-        // $query = Item::query()
-        //     ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
-        //     ->select('items.id', 'items.item_name', 'item_types.name as item_type_name');
-
-        // // Apply filters if itemName or itemType are set
-        // if ($itemName) {
-        //     $query->where('items.item_name', $itemName);
-        // }
-
-        // if ($itemType) {
-        //     $query->where('item_types.name', $itemType);
-        // }
-
-        // $results = $query->get(); // Execute the query and get the results
-
-        // return response()->json($results);
-
+        //
     }
 
     public function DropdownItemTypes(Request $request)
@@ -130,21 +106,8 @@ class ItemController extends Controller
      */
     public function edit(Request $request)
     {
-        $itemName = 'ITO ANG ITEM';
-        $itemType = 'ITO ANG TYPE';
-
-        // Store the item details in the session
-        Session::put('item_name', $itemName);
-        Session::put('item_type', $itemType);
-
-        return redirect(route('index'))->with([
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'edit' => true,
-        ]);
+        //
     }
-
-
     /**
      * Update the specified resource in storage.
      */
@@ -186,5 +149,22 @@ class ItemController extends Controller
             'status' => session('status'),
             'item' => $itemData
         ]);
+    }
+
+    public function itemShow(Request $request)
+    {
+        return response()->json($this->data);
+    }
+    public function itemEdit($data)
+    {
+        $itemName = 'name';
+        $itemID = 123;
+
+        $data = $itemName . ' ' . $itemID;
+        
+        $this->data = $data;
+
+        
+
     }
 }

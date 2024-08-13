@@ -140,7 +140,7 @@ const editItem = (item) => {
   console.log(item.item_type_name);
 
   // Make a POST request to fetch the item details
-  form.post('/item-table-edit', { // Adjust URL as necessary
+  form.post('/item-edit', { // Adjust URL as necessary
     data: { id: item.id },
     preserveScroll: true,
     onSuccess: (data) => {
