@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Session;
 
 class ItemController extends Controller
 {
-    protected $data;
     /**
      * Display a listing of the resource.
      */
@@ -38,7 +37,7 @@ class ItemController extends Controller
         // Build the query with joins
         $query = Item::query()
             ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
-            ->select('items.id', 'items.item_name', 'item_types.name as item_type_name')
+            ->select('items.id', 'items.item_name', 'items.item_type_id', 'item_types.name as item_type_name')
             ->where(function ($query) use ($search) {
                 if (!empty($search)) {
                     $query->where('items.item_name', 'like', '%' . $search . '%');
@@ -74,6 +73,7 @@ class ItemController extends Controller
         return Inertia::render('Items/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'form_type' => 'create',
         ]);
     }
     public function store(Request $request)
@@ -153,18 +153,41 @@ class ItemController extends Controller
 
     public function itemShow(Request $request)
     {
-        return response()->json($this->data);
+        $search = $request->input('search', ''); // Default to empty string if not provided
+
+        // Build the query with joins and where condition
+        $query = Item::query()
+            ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
+            ->select('items.id', 'items.item_name', 'items.item_type_id', 'item_types.name as item_type_name')
+            ->where(function ($query) use ($search) {
+                if (!empty($search)) {
+                    $query->where('items.item_name', 'like', '%' . $search . '%');
+                }
+            });
+
+        // Fetch the results without pagination
+        $items = $query->get();
+
+        // Prepare the response
+        $response = [
+            'data' => $items,
+            'total' => $items->count(), // Total count of items fetched
+        ];
+
+        return response()->json($response);
     }
-    public function itemEdit($data)
+    public function itemEdit(Request $request)
     {
-        $itemName = 'name';
-        $itemID = 123;
+        $id = $request->input('id');
 
-        $data = $itemName . ' ' . $itemID;
-        
-        $this->data = $data;
+        $item_info = Item::find($id);
 
-        
-
+        return Inertia::render('Items/Create', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+            'form_type' => 'edit',
+            'item_id' => $request->input('id'),
+            'item_type_id' => $item_info->item_type_id,
+        ]);
     }
 }

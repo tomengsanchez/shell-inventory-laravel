@@ -29,11 +29,8 @@
             <tbody>
                 <tr v-for="item in data.data" :key="item.id">
                     <td class="text-center py-2 px-8">{{ item.id }}</td>
-                    <td v-if="!item.editing" class="text-center py-2 px-10">{{ item.item_name }}</td>
-                    <td v-if="item.editing" class="text-center py-2 px-10">
-                        <input v-model="item.name" />
-                    </td>
-                    <td class="text-center py-2 px-8">{{ item.item_type_name }}</td>
+                    <td class="text-center py-2 px-10">{{ item.item_name }}</td>
+                    <td class="text-center py-2 px-8"> {{ item.item_type_name }}</td>
 
                     <td>
                         <div class="flex items-center justify-center">
@@ -46,7 +43,6 @@
                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full ml-2">
                                 Delete
                             </button>
-
                         </div>
                     </td>
 
@@ -83,6 +79,7 @@ const form = useForm({
     id: '',
     item_name: '',
     item_type_id: '',
+    item_type_name: '',
 });
 
 const data = ref([]); // Initialize data as a reactive reference
@@ -130,29 +127,26 @@ const prevPage = () => {
 };
 
 const editItem = (item) => {
-  // Update form with current item values
-  form.id = item.id;
-  form.item_name = item.item_name;
-  form.item_type_id = item.item_type_name;
+    // Update form with current item values
+    form.id = item.id;
+    form.item_name = item.item_name;
+    form.item_type_id = item.item_type_id;
+    form.item_type_name = item.item_type_name;
 
-  console.log(item.id);
-  console.log(item.item_name);
-  console.log(item.item_type_name);
-
-  // Make a POST request to fetch the item details
-  form.post('/item-edit', { // Adjust URL as necessary
-    data: { id: item.id },
-    preserveScroll: true,
-    onSuccess: (data) => {
-      console.log(data);
-      // Optionally update the form fields with the fetched data
-      form.item_name = data.item_name;
-      form.item_type_name = data.item_type_name;
-    },
-    onError: () => {
-      console.log('Error fetching item');
-    }
-  });
+    // Make a POST request to fetch the item details
+    form.post('/item-edit', { // Adjust URL as necessary
+        data: { id: item.id },
+        preserveScroll: true,
+        onSuccess: (data) => {
+            // Optionally update the form fields with the fetched data
+            form.item_name = data.item_name;
+            form.item_type_id = data.item_type_id;
+            form.item_type_name = data.item_type_name;
+        },
+        onError: () => {
+            console.log('Error fetching item');
+        }
+    });
 };
 
 const deleteItem = (id) => {
