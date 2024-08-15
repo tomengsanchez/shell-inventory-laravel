@@ -6,16 +6,17 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import ItemTypesCreateForm from '@/Components/ItemTypes/ItemTypesCreateForm.vue';
 
 const props = defineProps({
     mustVerifyEmail: Boolean,
     status: String,
+    id: Number,
     item_name: String,
     item_type_id: String,
     item_type_name: String,
     form_type: String,
-    item_id: Number
 });
 
 console.log(props);
@@ -27,10 +28,12 @@ var form = useForm({
 
 const data = ref([]); // Initialize data as a reactive reference
 
+
 const addItem = () => {
     form.post('store-item', {
         preserveScroll: true,
         onSuccess: (data) => {
+            console.log(data);
         },
         onError: () => {
             console.log(222);
@@ -99,10 +102,11 @@ onMounted(() => {
                                 <InputError class="mt-2" :message="form.errors.item_name" />
 
                                 <InputLabel for="item_type_id" value="Item Types" />
-                                <select id="item_type_id" v-model="form.item_type_id" class="mt-1 block w-full">
-                                    <option v-for="item in data.data" :value="item.id" :key="item.id">
+                                <select id="item_type_id" class="mt-1 block w-full">
+                                    <option v-for="item in data.data" :selected="item_type_id">
                                         {{ item.name }}
                                     </option>
+                                    <!-- <option :selected="'item_type_id' === 'item.id'"> {{ item_name }} </option> -->
                                 </select>
                                 <InputError class="mt-2" :message="form.errors.item_type_id" />
                             </div>
@@ -119,9 +123,9 @@ onMounted(() => {
                     </div>
                     <div class="item-info">
                             <h2>Item Information</h2>
-                            <p><strong>Item Id:</strong> {{  item_id }}</p>
+                            <p><strong>Item Id:</strong> {{ id }}</p>
                             <p><strong>Item Name:</strong> {{ item_name }}</p>
-                            <p><strong>Item Type ID:</strong> {{ item_type_id }}</p>
+                            <p><strong>Item Type ID:</strong> {{ item_type_name }}</p>
                         </div>
                 </div>
             </div>
