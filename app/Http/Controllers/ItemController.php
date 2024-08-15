@@ -178,16 +178,35 @@ class ItemController extends Controller
     }
     public function itemEdit(Request $request)
     {
-        $id = $request->input('id');
+        // Extract search query from the request
+        $search = $request->input('id', ''); // Default to empty string if not provided
 
-        $item_info = Item::find($id);
+        // Build the query with joins
+        $query = Item::query()
+            ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
+            ->select('items.id', 'items.item_name', 'items.item_type_id', 'item_types.name as item_type_name')
+            ->where(function ($query) use ($search) {
+                if (!empty($search)) {
+                    $query->where('items.id', '=', $search);
+                }
+            });
+
+        // Fetch all results without limit or total count
+        $items = $query->get();
+
+        // Prepare response
+        // $response = [
+        //     'data' => $items,
+        // ];
+
+        // return response()->json($response);
 
         return Inertia::render('Items/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'form_type' => 'edit',
             'item_id' => $request->input('id'),
-            'item_type_id' => $item_info->item_type_id,
+            'items' => $items,
         ]);
     }
 }
