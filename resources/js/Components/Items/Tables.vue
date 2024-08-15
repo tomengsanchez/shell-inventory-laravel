@@ -34,6 +34,7 @@
 
                     <td>
                         <div class="flex items-center justify-center">
+                            <button @click="edit(item.id)">Edit 2</button>
                             <button @click="editItem(item)"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                 Edit
@@ -74,6 +75,10 @@ const props = defineProps({
     mustVerifyEmail: Boolean,
     status: String
 });
+
+const edit=(item_id)=>{
+    window.location.href=`/item/${item_id}/edit`;
+}
 
 const form = useForm({
     id: '',

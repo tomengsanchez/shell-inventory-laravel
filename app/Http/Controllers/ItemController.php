@@ -176,12 +176,13 @@ class ItemController extends Controller
 
         return response()->json($response);
     }
-    public function itemEdit(Request $request)
+    public function itemEdit(Request $request, $id)
     {
         // Extract search query from the request
-        $search = $request->input('id', ''); // Default to empty string if not provided
+        $search = $id;
 
         // Build the query with joins
+        
         $query = Item::query()
             ->join('item_types', 'items.item_type_id', '=', 'item_types.id')
             ->select('items.id', 'items.item_name', 'items.item_type_id', 'item_types.name as item_type_name')
@@ -192,8 +193,10 @@ class ItemController extends Controller
             });
 
         // Fetch all results without limit or total count
-        $items = $query->get();
-
+        $item = $query->get();
+        
+        
+        
         // Prepare response
         // $response = [
         //     'data' => $items,
@@ -205,8 +208,7 @@ class ItemController extends Controller
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'form_type' => 'edit',
-            'item_id' => $request->input('id'),
-            'items' => $items,
+            'item_info'=>$item[0]
         ]);
     }
 }

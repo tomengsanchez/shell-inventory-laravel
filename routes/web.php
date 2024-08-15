@@ -46,6 +46,7 @@ Route::get('/item-show', [ItemController::class,'itemShow'])->middleware(['auth'
 Route::get('/dropdown-item-types', [ItemController::class,'DropdownItemTypes'])->middleware(['auth', 'verified'])->name('dropdown-item-types');
 Route::get('/item-table-data', [ItemController::class,'listItemData'])->middleware(['auth', 'verified'])->name('item-types-table');
 Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', 'verified'])->name('add-item');
+Route::get('/item/{id}/edit', [ItemController::class,'itemEdit'])->middleware(['auth', 'verified'])->name('edit-item');
 Route::post('/store-item', [ItemController::class,'store'])->middleware(['auth', 'verified'])->name('store-item');
 Route::post('/item-edit', [ItemController::class,'itemEdit'])->middleware(['auth', 'verified'])->name('item-edit');
 Route::put('/item-table-update/{id}', [ItemController::class,'update'])->middleware(['auth', 'verified'])->name('item-table-update');

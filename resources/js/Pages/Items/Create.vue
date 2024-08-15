@@ -17,9 +17,10 @@ const props = defineProps({
     item_type_id: String,
     item_type_name: String,
     form_type: String,
+    item_info:Object
 });
 
-console.log(props);
+console.log(props.item_info);
 
 var form = useForm({
     item_name: '',
@@ -44,7 +45,7 @@ const addItem = () => {
 const fetchData = async () => {
     try {
         var jsonResponse = [];
-        const response = await fetch('dropdown-item-types');
+        const response = await fetch('/dropdown-item-types');
         jsonResponse = await response.json();
         data.value = jsonResponse;
         
@@ -96,14 +97,13 @@ onMounted(() => {
                             <div v-if="form_type === 'edit'">
 
                                 <InputLabel for="item_name" value="Edit Item Name" />
-                                <div v-for="item in data" :key="item.id">
-                                    <input type="text" v-model="item.item_type_name" />
-                                </div>
+                                <TextInput id="item_name" v-model="form.item_name" type="text" class="mt-1 block w-full" :value="item_info.item_name"
+                                autocomplete="off" />
                                 <InputError class="mt-2" :message="form.errors.item_name" />
 
                                 <InputLabel for="item_type_id" value="Item Types" />
-                                <select id="item_type_id" class="mt-1 block w-full">
-                                    <option v-for="item in data.data" :selected="item_type_id">
+                                <select id="item_type_id" class="mt-1 block w-full" >
+                                    <option v-for="item in data.data" :value="item.id" :selected="item.id == item_info.item_type_id">
                                         {{ item.name }}
                                     </option>
                                     <!-- <option :selected="'item_type_id' === 'item.id'"> {{ item_name }} </option> -->
@@ -123,8 +123,8 @@ onMounted(() => {
                     </div>
                     <div class="item-info">
                             <h2>Item Information</h2>
-                            <p><strong>Item Id:</strong> {{ id }}</p>
-                            <p><strong>Item Name:</strong> {{ item_name }}</p>
+                            <p><strong>Item Id:</strong> {{ item_info.id }}</p>
+                            <p><strong>Item Name:</strong> {{ item_info.item_name }}</p>
                             <p><strong>Item Type ID:</strong> {{ item_type_name }}</p>
                         </div>
                 </div>
