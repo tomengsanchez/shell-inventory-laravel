@@ -129,8 +129,6 @@ class ItemTypeController extends Controller
             'updatedName' => $itemData
         ]);
     }
-
-
     /**
      * Remove the specified resource from storage.
      */

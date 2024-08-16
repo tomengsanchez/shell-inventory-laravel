@@ -113,22 +113,23 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = ItemType::findOrFail($id);
+        $data = Item::findOrFail($id);
         $validated = $request->validate([
             'item_name' => 'required|string|max:255',
-            'item_type_name' => 'required|string|max:255',
+            'item_type_id' => 'required|integer|max:255'
+,
         ]);
         $data->update($validated);
 
         $itemData = [
-            'item_name' => $data->name,
-            'item_type_name' => $data->name,
+            'item_name' => $data->item_name,
+            'item_type_id' => $data->item_type_id,
         ];
 
         return redirect()->route('items')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'updatedName' => $itemData
+            'itemdata' => $itemData
         ]);
     }
 
@@ -140,7 +141,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         $itemData = [
             'item_name' => $item->item_name,
-            'item_type_name' => $item->item_type_name,
+            'item_type_id' => $item->item_type_id,
         ];
         $item->delete();
 
@@ -194,15 +195,6 @@ class ItemController extends Controller
 
         // Fetch all results without limit or total count
         $item = $query->get();
-        
-        
-        
-        // Prepare response
-        // $response = [
-        //     'data' => $items,
-        // ];
-
-        // return response()->json($response);
 
         return Inertia::render('Items/Create', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
