@@ -49,7 +49,7 @@ Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', '
 Route::get('/item/{id}/edit', [ItemController::class,'itemEdit'])->middleware(['auth', 'verified'])->name('edit-item');
 Route::post('/store-item', [ItemController::class,'store'])->middleware(['auth', 'verified'])->name('store-item');
 Route::post('/item-edit', [ItemController::class,'itemEdit'])->middleware(['auth', 'verified'])->name('item-edit');
-Route::put('/item-table-update/{id}', [ItemController::class,'update'])->middleware(['auth', 'verified'])->name('item-table-update');
+Route::put('/item-update/{id}', [ItemController::class,'update'])->middleware(['auth', 'verified'])->name('item-update');
 Route::delete('/item-table-delete/{id}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-table-delete');
 
 

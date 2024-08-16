@@ -34,8 +34,8 @@
 
                     <td>
                         <div class="flex items-center justify-center">
-                            <button @click="edit(item.id)">Edit 2</button>
-                            <button @click="editItem(item)"
+
+                            <button @click="edit(item.id)"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                 Edit
                             </button>
@@ -44,6 +44,7 @@
                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full ml-2">
                                 Delete
                             </button>
+
                         </div>
                     </td>
 
@@ -76,8 +77,8 @@ const props = defineProps({
     status: String
 });
 
-const edit=(item_id)=>{
-    window.location.href=`/item/${item_id}/edit`;
+const edit = (item_id) => {
+    window.location.href = `/item/${item_id}/edit`;
 }
 
 const form = useForm({
@@ -129,29 +130,6 @@ const prevPage = () => {
         currentPage--;
         fetchData();
     }
-};
-
-const editItem = (item) => {
-    // Update form with current item values
-    form.id = item.id;
-    form.item_name = item.item_name;
-    form.item_type_id = item.item_type_id;
-    form.item_type_name = item.item_type_name;
-
-    // Make a POST request to fetch the item details
-    form.post('/item-edit', { // Adjust URL as necessary
-        data: { id: item.id },
-        preserveScroll: true,
-        onSuccess: (data) => {
-            // Optionally update the form fields with the fetched data
-            form.item_name = data.item_name;
-            form.item_type_id = data.item_type_id;
-            form.item_type_name = data.item_type_name;
-        },
-        onError: () => {
-            console.log('Error fetching item');
-        }
-    });
 };
 
 const deleteItem = (id) => {
