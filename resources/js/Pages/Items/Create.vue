@@ -11,7 +11,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <form @submit.prevent="form_type === 'edit' ? updateItem(item_info) : createItem" class="mt-6 space-y-6">
+                        <form @submit.prevent="form_type === 'edit' ? updateItem(item_info) : createItem()" class="mt-6 space-y-6">
                             <!-- Conditionally render InputLabel and TextInput for 'create' -->
                             <div v-if="form_type === 'create'">
                                 <InputLabel for="item_name" value="New Item Name" />
