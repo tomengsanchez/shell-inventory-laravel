@@ -14,32 +14,16 @@
                         <form @submit.prevent="form_type === 'edit' ? updateItem(item_info) : createItem()" class="mt-6 space-y-6">
                             <!-- Conditionally render InputLabel and TextInput for 'create' -->
                             <div v-if="form_type === 'create'">
-                                <InputLabel for="item_name" value="New Item Name" />
-                                <TextInput id="item_name" v-model="form.item_name" type="text" class="mt-1 block w-full" autocomplete="off" />
-                                <InputError class="mt-2" :message="form.errors.item_name" />
-
-                                <InputLabel for="item_type_id" value="Item Types" />
-                                <select id="item_type_id" v-model="form.item_type_id" class="mt-1 block w-full">
-                                    <option v-for="item in data.data" :value="item.id" :key="item.id">
-                                        {{ item.name }}
-                                    </option>
-                                </select>
-                                <InputError class="mt-2" :message="form.errors.item_type_id" />
+                                <InputLabel for="supplier_type_name" value="New Supplier Type" />
+                                <TextInput id="supplier_type_name" v-model="form.supplier_type_name" type="text" class="mt-1 block w-full" autocomplete="off" />
+                                <InputError class="mt-2" :message="form.errors.supplier_type_name" />
                             </div>
 
                             <!-- Conditionally render InputLabel and TextInput for 'edit' -->
                             <div v-if="form_type === 'edit'">
-                                <InputLabel for="item_name" value="Edit Item Name" />
-                                <TextInput id="item_name" v-model="item_info.item_name" type="text" class="mt-1 block w-full" autocomplete="off" />
-                                <InputError class="mt-2" :message="form.errors.item_name" />
-
-                                <InputLabel for="item_type_id" value="Item Types" />
-                                <select id="item_type_id" v-model="item_info.item_type_id" class="mt-1 block w-full">
-                                    <option v-for="item in data.data" :value="item.id" :key="item.id">
-                                        {{ item.name }}
-                                    </option>
-                                </select>
-                                <InputError class="mt-2" :message="form.errors.item_type_id" />
+                                <InputLabel for="supplier_type_name" value="Edit Supplier Type" />
+                                <TextInput id="supplier_type_name" v-model="item_info.supplier_type_name" type="text" class="mt-1 block w-full" autocomplete="off" />
+                                <InputError class="mt-2" :message="form.errors.supplier_type_name" />
                             </div>
 
                             <div class="flex items-center gap-4">
@@ -82,14 +66,13 @@ const props = defineProps({
 // console.log(props);
 
 const form = useForm({
-    item_name: '',
-    item_type_id: '',
+    supplier_type_name: '',
 });
 
 const data = ref([]); // Initialize data as a reactive reference
 
 const createItem = () => {
-    form.post('store-item', {
+    form.post('store-supplier-type', {
         preserveScroll: true,
         onSuccess: (data) => {
             console.log('Item created:', data);
@@ -102,7 +85,7 @@ const createItem = () => {
 
 const updateItem = (item) => {
     const updateForm = useForm({
-        item_name: item.item_name,
+        supplier_type_name: item.supplier_type_name,
         item_type_id: item.item_type_id,
     });
 

@@ -4,8 +4,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemTypeController;
 use App\Http\Controllers\SupplierController;
-use App\Models\ItemType;
-use App\Models\Supplier;
+use App\Http\Controllers\SupplierTypesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
@@ -52,8 +51,6 @@ Route::post('/item-edit', [ItemController::class,'itemEdit'])->middleware(['auth
 Route::put('/item-update/{id}', [ItemController::class,'update'])->middleware(['auth', 'verified'])->name('item-update');
 Route::delete('/item-table-delete/{id}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-table-delete');
 
-
-
 // Routes for Item Types
 Route::get('/item-types', [ItemTypeController::class,'index'])->middleware(['auth', 'verified'])->name('item-types');
 Route::get('/item-types-table', [ItemTypeController::class,'listTable'])->middleware(['auth', 'verified'])->name('item-types-table');
@@ -63,13 +60,20 @@ Route::put('/item-types-table-update/{id}', [ItemTypeController::class,'update']
 Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'destroy'])->middleware(['auth', 'verified'])->name('item-types-table-delete');
 
 
-
 // Routes for Supplier
 Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
 Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
-// Route::get('/suppliers-resource', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('add-supplier');
 Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
 
+
+// Routes for SupplierTypes
+Route::get('/supplier-types', function () {
+    return Inertia::render('SupplierTypes/List');
+})->middleware(['auth', 'verified'])->name('supplier-types');
+
+Route::get('/suppliers-types', [SupplierTypesController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers-types');
+Route::get('/add-supplier-type', [SupplierTypesController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier-type');
+Route::post('/store-supplier-type', [SupplierTypesController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier-type');
 
 // Routes for Location
 Route::get('/locations', function () {

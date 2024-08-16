@@ -2,9 +2,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Tables from '@/Components/ItemTypes/Tables.vue';
-import Trytable from '@/Components/ItemTypes/Trytable.vue';
-
-var user = '';
 
 defineProps<{
     name1?: string
@@ -25,7 +22,6 @@ defineProps<{
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <Tables></Tables>
-                        <!-- <Trytable></Trytable> -->
                     </div>
                 </div>
             </div>

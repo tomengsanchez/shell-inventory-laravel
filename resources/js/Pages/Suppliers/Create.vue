@@ -28,11 +28,11 @@ const form = useForm({
 const addSupplier = () => {
     form.post('add-supplier', {
         preserveScroll: true,
-        onSuccess: (data) => {
+        onSuccess: () => {
             console.log(form);
             form.reset();
         },
-        onError: (data) => {
+        onError: () => {
             console.log(form.errors);
         }
     });

@@ -1,14 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreItemTypeRequest;
-use App\Http\Requests\UpdateItemTypeRequest;
 use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Http\Resources\ItemTypeListResource;
-
 
 class ItemTypeController extends Controller
 {
@@ -62,13 +58,6 @@ class ItemTypeController extends Controller
             'item_create' => 'create'
         ]);
 
-        // return redirect()->route('add-item-types')->with([
-        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-        //     'status' => session('status'),
-        //     'item_create'=>'create'
-        // ]);
-
-
     }
     public function store(Request $request)
     {
@@ -80,12 +69,6 @@ class ItemTypeController extends Controller
         $ItemType = new Itemtype();
         $ItemType->name = $request->input('name');
         $ItemType->save();
-
-        // return Inertia::render('ItemTypes/List', [
-        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-        //     'status' => session('status'),
-        //     'req'=>$request['name']
-        // ]);
 
         return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,

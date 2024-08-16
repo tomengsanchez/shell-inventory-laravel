@@ -1,14 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Console\Migrations\RefreshCommand;
-use App\Http\Requests\UpdateItemRequest;
 use App\Http\Resources\ItemTypeListResource;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\ItemType;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Session;
 
 class ItemController extends Controller
 {
