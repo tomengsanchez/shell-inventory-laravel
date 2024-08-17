@@ -38,17 +38,6 @@ class ItemTypeController extends Controller
         $itemTypes = $query->paginate($limit, ['id', 'name'], 'page', $page);
         // Return paginated results as JSON using the resource
         return ItemTypeListResource::collection($itemTypes);
-
-        // return ItemTypeListResource::collection(ItemType::paginate($request['limit'], ['id', 'name'], 'Item Type', $request['page']));
-
-    }
-    public function list(Request $request)
-    {
-        return Inertia::render('ItemTypes/List', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'name1' => 'JENRY'
-        ]);
     }
     public function create(Request $request)
     {
@@ -76,20 +65,6 @@ class ItemTypeController extends Controller
             'req' => $request->input('name')
         ]);
     }
-
-    public function show(ItemType $itemType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Request $request)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */

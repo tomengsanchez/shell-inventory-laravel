@@ -72,7 +72,7 @@ const form = useForm({
 const data = ref([]); // Initialize data as a reactive reference
 
 const createItem = () => {
-    form.post('store-supplier-type', {
+    form.post('store-supplier-types', {
         preserveScroll: true,
         onSuccess: (data) => {
             console.log('Item created:', data);
@@ -91,29 +91,13 @@ const updateItem = (item) => {
 
     console.log(updateForm);
 
-    updateForm.put(`/item-update/${item.id}`, {
+    updateForm.put(`/supplier-type-update/${item.id}`, {
         onSuccess: () => {
             console.log('Item updated successfully!');
-            fetchData(); // Refresh data
         },
         onError: (error) => {
             console.error('Error updating item:', error);
         }
     });
 };
-
-const fetchData = async () => {
-    try {
-        const response = await fetch('/dropdown-item-types');
-        const jsonResponse = await response.json();
-        data.value = jsonResponse;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-};
-
-// Fetch data when the component is mounted
-onMounted(() => {
-    fetchData();
-});
 </script>

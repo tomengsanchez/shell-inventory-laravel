@@ -72,8 +72,12 @@ Route::get('/supplier-types', function () {
 })->middleware(['auth', 'verified'])->name('supplier-types');
 
 Route::get('/suppliers-types', [SupplierTypesController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers-types');
-Route::get('/add-supplier-type', [SupplierTypesController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier-type');
-Route::post('/store-supplier-type', [SupplierTypesController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier-type');
+Route::get('/add-supplier-types', [SupplierTypesController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier-types');
+Route::get('/supplier-types-table', [SupplierTypesController::class,'show'])->middleware(['auth', 'verified'])->name('supplier-types-table');
+Route::get('/supplier-types/{id}/edit', [SupplierTypesController::class,'edit'])->middleware(['auth', 'verified'])->name('edit-supplier-types');
+Route::post('/store-supplier-types', [SupplierTypesController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier-types');
+Route::put('/supplier-type-update/{id}', [SupplierTypesController::class,'update'])->middleware(['auth', 'verified'])->name('supplier-type-update');
+Route::delete('/supplier-types-table-delete/{id}', [SupplierTypesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('supplier-types-table');
 
 // Routes for Location
 Route::get('/locations', function () {

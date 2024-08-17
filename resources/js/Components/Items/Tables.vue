@@ -68,7 +68,7 @@
 
 <script setup>
 import NavLink from '@/Components/NavLink.vue';
-import { ref, onMounted, resolveComponent } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 // Define the props to use in your component
