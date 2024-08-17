@@ -79,8 +79,6 @@ const props = defineProps({
     item_info: Object
 });
 
-// console.log(props);
-
 const form = useForm({
     item_name: '',
     item_type_id: '',

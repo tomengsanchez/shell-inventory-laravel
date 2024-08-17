@@ -43,7 +43,7 @@ Route::get('/items', function () {
 // Routes for Items
 Route::get('/item-show', [ItemController::class,'itemShow'])->middleware(['auth', 'verified'])->name('item-show');
 Route::get('/dropdown-item-types', [ItemController::class,'DropdownItemTypes'])->middleware(['auth', 'verified'])->name('dropdown-item-types');
-Route::get('/item-table-data', [ItemController::class,'listItemData'])->middleware(['auth', 'verified'])->name('item-types-table');
+Route::get('/item-table-data', [ItemController::class,'listItemData'])->middleware(['auth', 'verified'])->name('item-table-data');
 Route::get('/add-item', [ItemController::class,'create'])->middleware(['auth', 'verified'])->name('add-item');
 Route::get('/item/{id}/edit', [ItemController::class,'itemEdit'])->middleware(['auth', 'verified'])->name('edit-item');
 Route::post('/store-item', [ItemController::class,'store'])->middleware(['auth', 'verified'])->name('store-item');
@@ -61,9 +61,14 @@ Route::delete('/item-types-table-delete/{id}', [ItemTypeController::class, 'dest
 
 
 // Routes for Supplier
+Route::get('/dropdown-supplier-types', [SupplierController::class,'DropdownSupplierTypes'])->middleware(['auth', 'verified'])->name('dropdown-supplier-types');
+Route::get('/supplier-table-data', [SupplierController::class,'supplierListJson'])->middleware(['auth', 'verified'])->name('supplier-table-data');
 Route::get('/suppliers', [SupplierController::class,'index'])->middleware(['auth', 'verified'])->name('suppliers');
+Route::get('/supplier/{id}/edit', [SupplierController::class,'edit'])->middleware(['auth', 'verified'])->name('supplier-item');
 Route::get('/add-supplier', [SupplierController::class,'create'])->middleware(['auth', 'verified'])->name('add-supplier');
 Route::post('/add-supplier', [SupplierController::class,'store'])->middleware(['auth', 'verified'])->name('store-supplier');
+Route::put('/supplier-update/{id}', [SupplierController::class,'update'])->middleware(['auth', 'verified'])->name('supplier-update');
+Route::delete('/supplier-table-delete/{id}', [SupplierController::class, 'destroy'])->middleware(['auth', 'verified'])->name('supplier-table-delete');
 
 
 // Routes for SupplierTypes
