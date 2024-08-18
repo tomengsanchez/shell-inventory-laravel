@@ -1,9 +1,9 @@
 <template>
     <div class="container mx-auto p-4">
 
-        <NavLink :href="route('add-item')"
+        <NavLink :href="route('add-supplier')"
             class="inline-flex items-center justify-center bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600">
-            Add New Item
+            Add New Supplier
         </NavLink> <br><br>
 
         <div class="mb-4">
@@ -21,17 +21,21 @@
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b">ID</th>
-                    <th class="py-2 px-4 border-b">Item Name</th>
-                    <th class="py-2 px-4 border-b">Item Type</th>
+                    <th class="py-2 px-4 border-b">Supplier Name</th>
+                    <th class="py-2 px-4 border-b">Supplier Address</th>
+                    <th class="py-2 px-4 border-b">Supplier Contact</th>
+                    <th class="py-2 px-4 border-b">Supplier Type</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
+                <br>
             </thead>
             <tbody>
                 <tr v-for="item in data.data" :key="item.id">
                     <td class="text-center py-2 px-8">{{ item.id }}</td>
-                    <td class="text-center py-2 px-10">{{ item.item_name }}</td>
-                    <td class="text-center py-2 px-8"> {{ item.item_type_name }}</td>
-
+                    <td class="text-center py-2 px-10">{{ item.name }}</td>
+                    <td class="text-center py-2 px-8"> {{ item.address }}</td>
+                    <td class="text-center py-2 px-8"> {{ item.contact_number }}</td>
+                    <td class="text-center py-2 px-8"> {{ item.supplier_type_name }}</td>
                     <td>
                         <div class="flex items-center justify-center">
 
@@ -78,7 +82,7 @@ const props = defineProps({
 });
 
 const edit = (item_id) => {
-    window.location.href = `/item/${item_id}/edit`;
+    window.location.href = `/supplier/${item_id}/edit`;
 }
 
 const form = useForm({
@@ -98,7 +102,7 @@ var searchTerm = ref('');
 const fetchData = async () => {
 
     try {
-        const response = await fetch(`/item-table-data?page=${currentPage}&limit=${pageLimit}&search=${encodeURIComponent(searchTerm.value)}`);
+        const response = await fetch(`/supplier-table-data?page=${currentPage}&limit=${pageLimit}&search=${encodeURIComponent(searchTerm.value)}`);
 
         if (response.ok) {
             var jsonResponse = [];
@@ -134,7 +138,7 @@ const prevPage = () => {
 
 const deleteItem = (id) => {
     if (confirm('Are you sure you want to delete this item?')) {
-        form.delete(`/item-table-delete/${id}`, {
+        form.delete(`/supplier-table-delete/${id}`, {
             preserveScroll: true, // Optional: keeps the scroll position after the request
             onSuccess: () => {
                 console.log('Item deleted successfully!');

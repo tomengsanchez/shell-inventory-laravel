@@ -13,10 +13,4 @@ class ItemType extends Model
         "id",
         "name",
     ];
-
-    // Define the inverse relationship
-    // public function items()
-    // {
-    //     return $this->hasMany(Item::class, 'item_type_id');
-    // }
 }

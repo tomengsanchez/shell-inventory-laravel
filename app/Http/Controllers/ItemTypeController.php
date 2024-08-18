@@ -1,14 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreItemTypeRequest;
-use App\Http\Requests\UpdateItemTypeRequest;
 use Illuminate\Http\Request;
 use App\Models\ItemType;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Http\Resources\ItemTypeListResource;
-
 
 class ItemTypeController extends Controller
 {
@@ -42,17 +38,6 @@ class ItemTypeController extends Controller
         $itemTypes = $query->paginate($limit, ['id', 'name'], 'page', $page);
         // Return paginated results as JSON using the resource
         return ItemTypeListResource::collection($itemTypes);
-
-        // return ItemTypeListResource::collection(ItemType::paginate($request['limit'], ['id', 'name'], 'Item Type', $request['page']));
-
-    }
-    public function list(Request $request)
-    {
-        return Inertia::render('ItemTypes/List', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
-            'name1' => 'JENRY'
-        ]);
     }
     public function create(Request $request)
     {
@@ -61,13 +46,6 @@ class ItemTypeController extends Controller
             'status' => session('status'),
             'item_create' => 'create'
         ]);
-
-        // return redirect()->route('add-item-types')->with([
-        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-        //     'status' => session('status'),
-        //     'item_create'=>'create'
-        // ]);
-
 
     }
     public function store(Request $request)
@@ -81,32 +59,12 @@ class ItemTypeController extends Controller
         $ItemType->name = $request->input('name');
         $ItemType->save();
 
-        // return Inertia::render('ItemTypes/List', [
-        //     'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-        //     'status' => session('status'),
-        //     'req'=>$request['name']
-        // ]);
-
         return redirect()->route('item-types')->with([
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'req' => $request->input('name')
         ]);
     }
-
-    public function show(ItemType $itemType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Request $request)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
